@@ -1,0 +1,10 @@
+# DuckDB in memory: no database server, no file on disk.
+# The project never loads or queries data; dbt only needs an adapter to parse
+# the project and generate the docs.
+data_landscape:
+  target: local
+  outputs:
+    local:
+      type: duckdb
+      path: ":memory:"
+      threads: 1
