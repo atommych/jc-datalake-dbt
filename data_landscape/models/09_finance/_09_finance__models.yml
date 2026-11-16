@@ -17,7 +17,6 @@ models:
         process_stage: 09 · Finance
         flagged_two_way_flows: F094, F096
       tags:
-        - stage_09
         - kind_system
         - two_way_flow
 
@@ -34,7 +33,6 @@ models:
         process_stage: 09 · Finance
         flagged_two_way_flows: F096
       tags:
-        - stage_09
         - kind_system
         - entity_bill
         - entity_cost_center

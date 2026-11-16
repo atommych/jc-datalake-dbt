@@ -1,10 +1,19 @@
-# DuckDB in memory: no database server, no file on disk.
-# The project never loads or queries data; dbt only needs an adapter to parse
-# the project and generate the docs.
+# DuckDB file: Elementary stores run/test results here, so it must persist
+# between dbt invocations. The project itself never loads or queries data.
 data_landscape:
   target: local
   outputs:
     local:
       type: duckdb
-      path: ":memory:"
+      path: "{{ env_var('DUCKDB_PATH', 'data_landscape.duckdb') }}"
+      threads: 1
+
+# Used by the Elementary CLI (edr). Schema = <target schema>_elementary.
+elementary:
+  target: local
+  outputs:
+    local:
+      type: duckdb
+      path: "{{ env_var('DUCKDB_PATH', 'data_landscape.duckdb') }}"
+      schema: main_elementary
       threads: 1

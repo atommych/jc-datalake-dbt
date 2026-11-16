@@ -16,22 +16,20 @@ models:
         domain: B2C
         process_stage: 07 · B2C frontends & user services
       tags:
-        - stage_07
         - kind_system
         - entity_user
 
-  - name: b2c_fe_jobs_jobup
-    description: '{{ doc("sys_b2c_fe_jobs_jobup") }}'
+  - name: jobs_jobup_ch_b2c_fe
+    description: '{{ doc("sys_jobs_jobup_ch_b2c_fe") }}'
     config:
       group: b2c
       meta:
-        system_id: b2c_fe_jobs_jobup
+        system_id: jobs_jobup_ch_b2c_fe
         system_name: jobs.ch / jobup.ch B2C Frontends
         node_kind: Frontend
         type_technology: Web / app frontend
         domain: B2C
         process_stage: 07 · B2C frontends & user services
       tags:
-        - stage_07
         - kind_frontend
         - entity_user_behaviour_event

@@ -34,13 +34,10 @@ PROJECT_NAME = "data_landscape"
 # sheet go to "99 Unassigned".
 SINK_STAGES = {
     "aircall": "5 CRM & customer support",
-    "safo": "5 CRM & customer support",
-    "pro": "5 CRM & customer support",
     "partner_networks": "6 Ad distribution & marketing",
     "sfmc": "6 Ad distribution & marketing",
     "jobmailer": "7 B2C frontends & user services",
     "js24_b2c_fe": "7 B2C frontends & user services",
-    "jobcloud_b2c_fe": "7 B2C frontends & user services",
     "vertical_fe": "7 B2C frontends & user services",
     "frontends_unspec": "7 B2C frontends & user services",
     "bigquery": "10 Data warehouse & BI",
@@ -107,10 +104,16 @@ def dump_yaml(data):
 
 def rows(ws):
     it = ws.iter_rows(values_only=True)
-    header = list(next(it))
+    # the header is the first row with 3+ filled cells (some tabs have a title row above it)
+    header = next(list(r) for r in it if sum(v is not None for v in r) >= 3)
     for r in it:
         if any(v is not None for v in r):
             yield dict(zip(header, r))
+
+
+def stated_in(r):
+    """Catalog workbooks have no "Stated in" column: two ' | ' separated rows in "Source text" mean Both."""
+    return "Both" if " | " in str(r.get("Source text") or "") else "One row"
 
 
 # --------------------------------------------------------------------------- #
@@ -119,7 +122,8 @@ def rows(ws):
 def read_workbook(path):
     wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
     systems = {}
-    for r in rows(wb["Systems"]):
+    # the catalog workbook calls the tab "Data Sources"; older exports call it "Systems"
+    for r in rows(wb["Data Sources" if "Data Sources" in wb.sheetnames else "Systems"]):
         systems[r["System ID"]] = dict(
             id=r["System ID"], name=r["System"], kind=r["Node kind"] or "",
             type=r["Type / technology"] or "", domain=r["Domain"] or "",
@@ -134,7 +138,8 @@ def read_workbook(path):
         flows.append(dict(
             id=r["Flow ID"], src=r["Source ID"], tgt=r["Target ID"],
             stage=r["Process stage (source)"], detail=r["Flow detail"] or "",
-            stated=r["Stated in"] or "", note=r["Mapping note"] or ""))
+            stated=r["Stated in"] if "Stated in" in r else stated_in(r),
+            note=r.get("Mapping note") or ""))
     flows.sort(key=lambda f: f["id"])
 
     for r in rows(wb["System Entities"]):
@@ -516,9 +521,20 @@ def generate(xlsx, root):
         "model-paths": ["models"],
         "target-path": "target",
         "clean-targets": ["target", "logs"],
-        "models": {PROJECT_NAME: {"+materialized": "view", **folder_cfg}},
+        "models": {
+            PROJECT_NAME: {"+materialized": "view", **folder_cfg},
+            "elementary": {"+schema": "elementary"},
+        },
     }
     write(root / "dbt_project.yml", header + dump_yaml(project))
+
+    # Elementary observability package (https://docs.elementary-data.com) -----------
+    write(root / "packages.yml", header + dump_yaml(
+        {"packages": [{"package": "elementary-data/elementary", "version": "0.26.1"}]}))
+    write(root / "macros" / "elementary_materialization.sql",
+          "{% materialization test, default %}\n"
+          "  {{ return(elementary.materialization_test_default()) }}\n"
+          "{% endmaterialization %}\n")
 
     print(f"{len(systems)} systems: " + ", ".join(
         f"{sum(s['resource'] == r for s in order)} {r}s" for r in ("source", "model", "exposure")))

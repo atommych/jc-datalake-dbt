@@ -7,6 +7,6 @@
     from the Data Flows sheet; dbt draws it as an edge in the lineage graph.
 #}
 
--- depends_on: {{ source('users', 'cs_sales') }}  -- F012 Customer Service / Sales
+-- depends_on: {{ source('users_teams', 'cs_sales') }}  -- F012 Customer Service / Sales
 
 select 1 as placeholder

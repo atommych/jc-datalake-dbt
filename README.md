@@ -84,6 +84,7 @@ Run `make help` for the full list.
 | `make docker-run` | Build the image and run the container in the foreground |
 | `make docker-up` / `docker-down` | Start/stop with Docker Compose |
 | `make docker-logs` / `docker-shell` | Tail logs / open a shell |
+| `make docker-dev` | Shell with the repo mounted at `/workspace`, for running the generator |
 | `make docker-clean` | Remove the image and Compose resources |
 | `make devcontainer-up` / `devcontainer-serve` / `devcontainer-shell` | Dev container via the CLI |
 | `make clean` | Remove `.venv` and dbt artifacts |

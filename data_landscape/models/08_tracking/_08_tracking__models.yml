@@ -16,7 +16,6 @@ models:
         domain: Tracking
         process_stage: 08 · Tracking
       tags:
-        - stage_08
         - kind_data_stream
         - entity_user_behaviour_event
 
@@ -32,7 +31,6 @@ models:
         domain: Tracking
         process_stage: 08 · Tracking
       tags:
-        - stage_08
         - kind_data_stream
         - entity_ad
         - entity_application
@@ -50,7 +48,6 @@ models:
         domain: Tracking
         process_stage: 08 · Tracking
       tags:
-        - stage_08
         - kind_data_stream
         - entity_email
         - entity_user
@@ -67,7 +64,6 @@ models:
         domain: Tracking
         process_stage: 08 · Tracking
       tags:
-        - stage_08
         - kind_data_stream
         - entity_ad
         - entity_user
@@ -84,7 +80,6 @@ models:
         domain: Tracking
         process_stage: 08 · Tracking
       tags:
-        - stage_08
         - kind_data_stream
         - entity_user
 
@@ -100,7 +95,6 @@ models:
         domain: Tracking
         process_stage: 08 · Tracking
       tags:
-        - stage_08
         - kind_external_service
         - entity_session
         - entity_user
@@ -117,5 +111,4 @@ models:
         domain: Tracking
         process_stage: 08 · Tracking
       tags:
-        - stage_08
         - kind_external_service

@@ -10,10 +10,11 @@
 -- depends_on: {{ source('sources', 'moneyhouse') }}  -- F001 moneyhouse
 -- depends_on: {{ source('sources', 'admin_uid') }}  -- F002 Admin UID Register
 -- depends_on: {{ ref('jobcloud_b2b_fe') }}  -- F021 jobcloud.ai B2B Frontend
+-- depends_on: {{ ref('pro') }}  -- F074 PRO
 
 {#  FLAGGED TWO-WAY FLOWS: real flows into this system that are left out of the
     lineage graph, because drawing them would create a cycle (dbt rejects cycles).
-    F057 Salesforce 1 -> marketplace (jobcloud.ai / ONE): reverse flow F039 is drawn instead
+    F057 Salesforce -> marketplace (jobcloud.ai / ONE): reverse flow F039 is drawn instead
 #}
 
 select 1 as placeholder

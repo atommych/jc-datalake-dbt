@@ -7,13 +7,11 @@
     from the Data Flows sheet; dbt draws it as an edge in the lineage graph.
 #}
 
--- depends_on: {{ source('sources', 'x28') }}  -- F004 x28
--- depends_on: {{ source('sources', 'kumo') }}  -- F007 kumo
 -- depends_on: {{ ref('js24_b2b_fe') }}  -- F020 jobscout24.ch B2B Frontend
 
 {#  FLAGGED TWO-WAY FLOWS: real flows into this system that are left out of the
     lineage graph, because drawing them would create a cycle (dbt rejects cycles).
-    F056 Salesforce 1 -> jobscout24 (JS24): reverse flow F034 is drawn instead
+    F056 Salesforce -> jobscout24 (JS24): reverse flow F034 is drawn instead
 #}
 
 select 1 as placeholder

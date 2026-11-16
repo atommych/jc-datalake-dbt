@@ -7,7 +7,7 @@
     from the Data Flows sheet; dbt draws it as an edge in the lineage graph.
 #}
 
--- depends_on: {{ source('users', 'b2c_users') }}  -- F017 B2C Users
+-- depends_on: {{ source('users_teams', 'b2c_users') }}  -- F017 B2C Users
 -- depends_on: {{ ref('datapool') }}  -- F072 Datapool
 -- depends_on: {{ ref('unity') }}  -- F077 unity
 

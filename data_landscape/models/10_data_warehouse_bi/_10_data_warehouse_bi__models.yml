@@ -4,19 +4,18 @@
 version: 2
 models:
 
-  - name: eaglyfly
-    description: '{{ doc("sys_eaglyfly") }}'
+  - name: eaglefly
+    description: '{{ doc("sys_eaglefly") }}'
     config:
       group: analytics_bi
       meta:
-        system_id: eaglyfly
-        system_name: EaglyFly
+        system_id: eaglefly
+        system_name: EagleFly
         node_kind: System
         type_technology: Data warehouse
         domain: Analytics & BI
         process_stage: 10 · Data warehouse & BI
       tags:
-        - stage_10
         - kind_system
         - entity_ad
         - entity_booking
@@ -35,5 +34,4 @@ models:
         domain: Analytics & BI
         process_stage: 10 · Data warehouse & BI
       tags:
-        - stage_10
         - kind_system

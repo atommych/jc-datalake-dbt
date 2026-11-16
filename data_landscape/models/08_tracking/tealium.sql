@@ -8,7 +8,7 @@
 #}
 
 -- depends_on: {{ ref('marketplace') }}  -- F047 marketplace (jobcloud.ai / ONE)
--- depends_on: {{ ref('b2c_fe_jobs_jobup') }}  -- F083 jobs.ch / jobup.ch B2C Frontends
+-- depends_on: {{ ref('jobs_jobup_ch_b2c_fe') }}  -- F083 jobs.ch / jobup.ch B2C Frontends
 -- depends_on: {{ ref('event_click') }}  -- F084 event.click
 -- depends_on: {{ ref('application_tracker') }}  -- F085 Application Tracker
 -- depends_on: {{ ref('email_tracker') }}  -- F087 Email Tracker

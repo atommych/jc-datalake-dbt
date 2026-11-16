@@ -4,40 +4,19 @@
 version: 2
 models:
 
-  - name: salesforce_1
-    description: '{{ doc("sys_salesforce_1") }}'
+  - name: salesforce
+    description: '{{ doc("sys_salesforce") }}'
     config:
       group: b2b
       meta:
-        system_id: salesforce_1
-        system_name: Salesforce 1
+        system_id: salesforce
+        system_name: Salesforce
         node_kind: System
         type_technology: CRM (Salesforce)
         domain: B2B
         process_stage: 05 · CRM & customer support
-        flagged_two_way_flows: F054, F055, F056, F057, F094
+        flagged_two_way_flows: F054, F055, F056, F057, F063, F094
       tags:
-        - stage_05
-        - kind_system
-        - entity_customer
-        - entity_opportunity
-        - entity_order
-        - two_way_flow
-
-  - name: salesforce_2
-    description: '{{ doc("sys_salesforce_2") }}'
-    config:
-      group: b2b
-      meta:
-        system_id: salesforce_2
-        system_name: Salesforce 2 (Programmatic)
-        node_kind: System
-        type_technology: CRM (Salesforce)
-        domain: B2B
-        process_stage: 05 · CRM & customer support
-        flagged_two_way_flows: F063
-      tags:
-        - stage_05
         - kind_system
         - entity_customer
         - entity_opportunity
@@ -56,6 +35,5 @@ models:
         domain: Support
         process_stage: 05 · CRM & customer support
       tags:
-        - stage_05
         - kind_external_service
         - entity_conversation

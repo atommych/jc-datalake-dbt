@@ -4,19 +4,18 @@
 version: 2
 models:
 
-  - name: jobs_ch_b2b_fe
-    description: '{{ doc("sys_jobs_ch_b2b_fe") }}'
+  - name: jobs_se_ch_b2b_fe
+    description: '{{ doc("sys_jobs_se_ch_b2b_fe") }}'
     config:
       group: b2b
       meta:
-        system_id: jobs_ch_b2b_fe
+        system_id: jobs_se_ch_b2b_fe
         system_name: jobs.ch B2B Frontend
         node_kind: Frontend
         type_technology: Web frontend
         domain: B2B
         process_stage: 03 · B2B frontends
       tags:
-        - stage_03
         - kind_frontend
 
   - name: jobup_ch_b2b_fe
@@ -31,7 +30,6 @@ models:
         domain: B2B
         process_stage: 03 · B2B frontends
       tags:
-        - stage_03
         - kind_frontend
 
   - name: js24_b2b_fe
@@ -46,7 +44,6 @@ models:
         domain: B2B
         process_stage: 03 · B2B frontends
       tags:
-        - stage_03
         - kind_frontend
 
   - name: jobcloud_b2b_fe
@@ -60,6 +57,7 @@ models:
         type_technology: Web frontend
         domain: B2B
         process_stage: 03 · B2B frontends
+        flagged_two_way_flows: F046
       tags:
-        - stage_03
         - kind_frontend
+        - two_way_flow

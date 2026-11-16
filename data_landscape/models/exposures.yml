@@ -11,7 +11,7 @@ exposures:
     owner:
       name: TBD
     depends_on:
-      - ref('salesforce_1')
+      - ref('salesforce')
       - source('sources', 'zendesk')
     config:
       meta:
@@ -22,50 +22,8 @@ exposures:
         domain: Support / Sales
         process_stage: 05 · CRM & customer support
       tags:
-        - stage_05
         - kind_system
         - entity_call
-
-  - name: pro
-    label: PRO
-    type: application
-    description: '{{ doc("sys_pro") }}'
-    owner:
-      name: TBD
-    depends_on:
-      - ref('marketplace')
-    config:
-      meta:
-        system_id: pro
-        system_name: PRO
-        node_kind: System
-        type_technology: Schema / system (not described)
-        domain: Unknown
-        process_stage: 05 · CRM & customer support
-      tags:
-        - stage_05
-        - kind_system
-
-  - name: safo
-    label: Safo
-    type: application
-    description: '{{ doc("sys_safo") }}'
-    owner:
-      name: TBD
-    depends_on:
-      - ref('marketplace')
-      - source('sources', 'zendesk')
-    config:
-      meta:
-        system_id: safo
-        system_name: Safo
-        node_kind: System
-        type_technology: System (not described)
-        domain: Unknown
-        process_stage: 05 · CRM & customer support
-      tags:
-        - stage_05
-        - kind_system
 
   - name: partner_networks
     label: Partner Networks
@@ -75,9 +33,9 @@ exposures:
       name: TBD
     depends_on:
       - ref('datapool')
-      - ref('jobs_ch')
-      - ref('joveo_marketing')
+      - ref('jobs_se_ch_b2b')
       - ref('marketplace')
+      - ref('pro')
     config:
       meta:
         system_id: partner_networks
@@ -87,7 +45,6 @@ exposures:
         domain: B2C
         process_stage: 06 · Ad distribution & marketing
       tags:
-        - stage_06
         - kind_external_service
         - entity_ad
 
@@ -100,7 +57,7 @@ exposures:
     depends_on:
       - ref('jobscout24')
       - ref('marketplace')
-      - ref('salesforce_1')
+      - ref('salesforce')
     config:
       meta:
         system_id: sfmc
@@ -110,7 +67,6 @@ exposures:
         domain: Marketing
         process_stage: 06 · Ad distribution & marketing
       tags:
-        - stage_06
         - kind_external_service
 
   - name: frontends_unspec
@@ -130,28 +86,7 @@ exposures:
         domain: Unknown
         process_stage: 07 · B2C frontends & user services
       tags:
-        - stage_07
         - kind_frontend
-
-  - name: jobcloud_b2c_fe
-    label: jobcloud.ai B2C Frontend
-    type: application
-    description: '{{ doc("sys_jobcloud_b2c_fe") }}'
-    owner:
-      name: TBD
-    depends_on:
-      - ref('datapool')
-      - ref('marketplace')
-    config:
-      meta:
-        system_id: jobcloud_b2c_fe
-        system_name: jobcloud.ai B2C Frontend
-        node_kind: Frontend
-        type_technology: Web / app frontend
-        domain: B2C
-        process_stage: 07 · B2C frontends & user services
-      tags:
-        - stage_07
 
   - name: jobmailer
     label: Jobmailer
@@ -160,8 +95,8 @@ exposures:
     owner:
       name: TBD
     depends_on:
-      - ref('jobs_ch')
-      - ref('jobup')
+      - ref('jobs_se_ch_b2b')
+      - ref('jobup_ch_b2b')
     config:
       meta:
         system_id: jobmailer
@@ -171,7 +106,6 @@ exposures:
         domain: B2C
         process_stage: 07 · B2C frontends & user services
       tags:
-        - stage_07
         - kind_system
         - entity_subscription
 
@@ -193,7 +127,6 @@ exposures:
         domain: B2C
         process_stage: 07 · B2C frontends & user services
       tags:
-        - stage_07
         - kind_frontend
 
   - name: vertical_fe
@@ -213,7 +146,6 @@ exposures:
         domain: B2C
         process_stage: 07 · B2C frontends & user services
       tags:
-        - stage_07
         - kind_frontend
 
   - name: bigquery
@@ -235,7 +167,6 @@ exposures:
         domain: Analytics & BI
         process_stage: 10 · Data warehouse & BI
       tags:
-        - stage_10
         - kind_system
 
   - name: ringier
@@ -255,7 +186,6 @@ exposures:
         domain: Reporting
         process_stage: 11 · Shareholder reporting
       tags:
-        - stage_11
         - kind_organisation
 
   - name: tx_group
@@ -275,5 +205,4 @@ exposures:
         domain: Reporting
         process_stage: 11 · Shareholder reporting
       tags:
-        - stage_11
         - kind_organisation

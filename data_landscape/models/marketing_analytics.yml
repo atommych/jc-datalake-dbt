@@ -1,0 +1,66 @@
+# Hand-maintained. Source: Marketing_Analytics_Data_Landscape.md.
+# Not produced by scripts/generate_project.py, so regeneration leaves it alone.
+
+version: 2
+exposures:
+
+  - name: adobe_analytics
+    label: Adobe Analytics
+    type: analysis
+    description: '{{ doc("sys_adobe_analytics") }}
+
+      {{ doc("ma_adobe") }}'
+    owner:
+      name: TBD
+    depends_on:
+      - ref('tealium')
+    config:
+      meta:
+        system_id: adobe_analytics
+        system_name: Adobe Analytics
+        node_kind: External service
+        type_technology: Web analytics
+        domain: Tracking
+        process_stage: 08 · Tracking
+        origin: Marketing_Analytics_Data_Landscape.md
+      tags:
+        - kind_external_service
+        - source_marketing_analytics_doc
+
+  - name: marketing_analytics
+    label: Marketing Analytics (reference)
+    type: analysis
+    description: '{{ doc("sys_marketing_analytics") }}
+
+      {{ doc("ma_landscape") }}
+
+      {{ doc("ma_tracking_framework") }}
+
+      {{ doc("ma_event_taxonomy") }}
+
+      {{ doc("ma_cdp") }}
+
+      {{ doc("ma_bigquery") }}
+
+      {{ doc("ma_channels") }}
+
+      {{ doc("ma_consumers") }}
+
+      {{ doc("ma_privacy") }}'
+    owner:
+      name: Marketing Analytics
+    depends_on:
+      - ref('tealium')
+      - ref('google_analytics')
+      - ref('tableau')
+    config:
+      meta:
+        system_id: marketing_analytics
+        system_name: Marketing Analytics (reference)
+        node_kind: Documentation
+        type_technology: Reference documentation
+        domain: Tracking
+        origin: Marketing_Analytics_Data_Landscape.md
+      tags:
+        - kind_documentation
+        - source_marketing_analytics_doc

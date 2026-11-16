@@ -7,7 +7,7 @@
     from the Data Flows sheet; dbt draws it as an edge in the lineage graph.
 #}
 
--- depends_on: {{ ref('salesforce_1') }}  -- F060 Salesforce 1
+-- depends_on: {{ ref('salesforce') }}  -- F060 Salesforce
 
 {#  FLAGGED TWO-WAY FLOWS: real flows into this system that are left out of the
     lineage graph, because drawing them would create a cycle (dbt rejects cycles).

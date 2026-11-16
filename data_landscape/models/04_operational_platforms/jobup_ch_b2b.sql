@@ -11,7 +11,7 @@
 
 {#  FLAGGED TWO-WAY FLOWS: real flows into this system that are left out of the
     lineage graph, because drawing them would create a cycle (dbt rejects cycles).
-    F055 Salesforce 1 -> jobup: reverse flow F029 is drawn instead
+    F055 Salesforce -> jobup: reverse flow F029 is drawn instead
 #}
 
 select 1 as placeholder

@@ -7,6 +7,6 @@
     from the Data Flows sheet; dbt draws it as an edge in the lineage graph.
 #}
 
--- depends_on: {{ ref('eaglyfly') }}  -- F098 EaglyFly
+-- depends_on: {{ ref('eaglefly') }}  -- F098 EagleFly
 
 select 1 as placeholder

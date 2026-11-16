@@ -61,3 +61,18 @@ sheet; its stage comes from `SINK_STAGES` in the script. Add new end-point
 systems there, otherwise they land in stage 99 "Unassigned".
 
 Exposure owners are set to `TBD`, since the workbook has no owner column.
+
+## Marketing Analytics additions (hand-maintained)
+
+Added from `Marketing_Analytics_Data_Landscape.md`; the generator does not touch them:
+
+- `models/docs/marketing_analytics.md`: doc blocks (`ma_*`) for platforms, tracking
+  framework, event taxonomy, Tealium CDP, Adobe, BigQuery pipelines, channel grouping,
+  consumers and privacy.
+- `models/marketing_analytics.yml`: two exposures, tagged `source_marketing_analytics_doc`:
+  `adobe_analytics` (fed by Tealium) and `marketing_analytics`, a documentation node whose
+  page holds the full reference. Its edges to Tealium, Google Analytics and Tableau mark
+  the systems it documents, not data flows.
+
+Not modelled as nodes: Looker Studio, MomentsIQ and the Dataform pipelines. BigQuery is an
+exposure, and dbt exposures cannot depend on other exposures.

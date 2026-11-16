@@ -8,8 +8,7 @@
 #}
 
 -- depends_on: {{ ref('marketplace') }}  -- F048 marketplace (jobcloud.ai / ONE)
--- depends_on: {{ ref('salesforce_1') }}  -- F061 Salesforce 1
--- depends_on: {{ ref('salesforce_2') }}  -- F064 Salesforce 2 (Programmatic)
+-- depends_on: {{ ref('salesforce') }}  -- F061 Salesforce
 -- depends_on: {{ ref('datendrehscheibe') }}  -- F095 Datendrehscheibe
 
 select 1 as placeholder

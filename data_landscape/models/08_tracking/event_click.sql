@@ -7,6 +7,6 @@
     from the Data Flows sheet; dbt draws it as an edge in the lineage graph.
 #}
 
--- depends_on: {{ ref('b2c_fe_jobs_jobup') }}  -- F078 jobs.ch / jobup.ch B2C Frontends
+-- depends_on: {{ ref('jobs_jobup_ch_b2c_fe') }}  -- F078 jobs.ch / jobup.ch B2C Frontends
 
 select 1 as placeholder

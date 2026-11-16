@@ -8,6 +8,20 @@ sources:
     description: 'Origin systems in process stage 01 · External & reference sources: they send data but receive none.'
     tables:
 
+      - name: zendesk
+        description: '{{ doc("sys_zendesk") }}'
+        config:
+          meta:
+            system_id: zendesk
+            system_name: Zendesk
+            node_kind: External service
+            type_technology: Customer support
+            domain: Support
+            process_stage: 05 · CRM & customer support
+          tags:
+            - kind_external_service
+            - entity_ticket
+            
       - name: moneyhouse
         description: '{{ doc("sys_moneyhouse") }}'
         config:
@@ -19,7 +33,6 @@ sources:
             domain: Reference Data
             process_stage: 01 · External & reference sources
           tags:
-            - stage_01
             - kind_external_source
             - entity_company
 
@@ -34,24 +47,8 @@ sources:
             domain: Reference Data
             process_stage: 01 · External & reference sources
           tags:
-            - stage_01
             - kind_external_source
             - entity_company
-
-      - name: x28
-        description: '{{ doc("sys_x28") }}'
-        config:
-          meta:
-            system_id: x28
-            system_name: x28
-            node_kind: External source
-            type_technology: External job data provider
-            domain: Integration
-            process_stage: 01 · External & reference sources
-          tags:
-            - stage_01
-            - kind_external_source
-            - entity_ad
 
       - name: kumo
         description: '{{ doc("sys_kumo") }}'
@@ -64,7 +61,6 @@ sources:
             domain: Integration
             process_stage: 01 · External & reference sources
           tags:
-            - stage_01
             - kind_system
             - entity_ad
 
@@ -79,7 +75,6 @@ sources:
             domain: B2B
             process_stage: 01 · External & reference sources
           tags:
-            - stage_01
             - kind_data_feed
             - entity_ad
 
@@ -94,10 +89,9 @@ sources:
             domain: Marketing
             process_stage: 01 · External & reference sources
           tags:
-            - stage_01
             - kind_external_source
 
-  - name: users
+  - name: users_teams
     description: 'Origin systems in process stage 02 · Users & teams: they send data but receive none.'
     tables:
 
@@ -112,7 +106,6 @@ sources:
             domain: Support / Sales
             process_stage: 02 · Users & teams
           tags:
-            - stage_02
             - kind_people_team
             - entity_customer
             - entity_opportunity
@@ -129,39 +122,5 @@ sources:
             domain: B2C
             process_stage: 02 · Users & teams
           tags:
-            - stage_02
             - kind_people_team
             - entity_user
-
-  - name: sources
-    description: 'Origin systems in process stage 05 · CRM & customer support: they send data but receive none.'
-    tables:
-
-      - name: zendesk
-        description: '{{ doc("sys_zendesk") }}'
-        config:
-          meta:
-            system_id: zendesk
-            system_name: Zendesk
-            node_kind: External service
-            type_technology: Customer support
-            domain: Support
-            process_stage: 05 · CRM & customer support
-          tags:
-            - stage_05
-            - kind_external_service
-            - entity_ticket
-
-      - name: salesforce_3
-        description: '{{ doc("sys_salesforce_3") }}'
-        config:
-          meta:
-            system_id: salesforce_3
-            system_name: Salesforce 3
-            node_kind: System
-            type_technology: CRM (Salesforce)
-            domain: B2B
-            process_stage: 05 · CRM & customer support
-          tags:
-            - stage_05
-            - kind_system

@@ -4,7 +4,7 @@
 - **Node kind:** External source
 - **Domain:** Reference Data
 - **Process stage:** 01 · External & reference sources
-- **Represented as:** dbt source 
+- **Represented as:** dbt source (origin system: sends data, receives none)
 - **Also written as:** —
 - **Core entities:** Company (Company data)
 - **Metrics / KPIs:** —
@@ -17,9 +17,9 @@ _None._
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F001 | marketplace (jobcloud.ai / ONE) |  | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F001 | marketplace (jobcloud.ai / ONE) |  | Both | Yes |  |
 
 {% enddocs %}
 
@@ -29,7 +29,7 @@ _None._
 - **Node kind:** External source
 - **Domain:** Reference Data
 - **Process stage:** 01 · External & reference sources
-- **Represented as:** dbt source 
+- **Represented as:** dbt source (origin system: sends data, receives none)
 - **Also written as:** admin UID register
 - **Core entities:** Company (Company ID)
 - **Metrics / KPIs:** —
@@ -42,36 +42,9 @@ _None._
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F002 | marketplace (jobcloud.ai / ONE) |  | Yes |  |
-
-{% enddocs %}
-
-{% docs sys_x28 %}
-**x28** · External job data provider
-
-- **Node kind:** External source
-- **Domain:** Integration
-- **Process stage:** 01 · External & reference sources
-- **Represented as:** dbt source 
-- **Also written as:** —
-- **Core entities:** Ad
-- **Metrics / KPIs:** —
-
-**Notes:** Shown in red in landscape.
-
-#### Receives data from
-
-_None._
-
-#### Sends data to
-
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F003 | jobs.ch (JobsSE) |  | Yes |  |
-| F004 | jobscout24 (JS24) |  | Yes |  |
-| F005 | Datapool |  | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F002 | marketplace (jobcloud.ai / ONE) |  | Both | Yes |  |
 
 {% enddocs %}
 
@@ -81,7 +54,7 @@ _None._
 - **Node kind:** System
 - **Domain:** Integration
 - **Process stage:** 01 · External & reference sources
-- **Represented as:** dbt source 
+- **Represented as:** dbt source (origin system: sends data, receives none)
 - **Also written as:** kumo (crawlers), kumo crawler
 - **Core entities:** Ad
 - **Metrics / KPIs:** —
@@ -92,11 +65,9 @@ _None._
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F006 | jobs.ch (JobsSE) |  | Yes |  |
-| F007 | jobscout24 (JS24) |  | Yes |  |
-| F008 | Datapool |  | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F008 | Datapool |  | Both | Yes |  |
 
 {% enddocs %}
 
@@ -106,7 +77,7 @@ _None._
 - **Node kind:** Data feed
 - **Domain:** B2B
 - **Process stage:** 01 · External & reference sources
-- **Represented as:** dbt source 
+- **Represented as:** dbt source (origin system: sends data, receives none)
 - **Also written as:** —
 - **Core entities:** Ad
 - **Metrics / KPIs:** —
@@ -117,9 +88,9 @@ _None._
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F009 | Salesforce 1 |  | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F009 | Salesforce |  | Both | Yes |  |
 
 {% enddocs %}
 
@@ -129,7 +100,7 @@ _None._
 - **Node kind:** External source
 - **Domain:** Marketing
 - **Process stage:** 01 · External & reference sources
-- **Represented as:** dbt source 
+- **Represented as:** dbt source (origin system: sends data, receives none)
 - **Also written as:** marketing vendor tracking
 - **Core entities:** —
 - **Metrics / KPIs:** —
@@ -140,9 +111,9 @@ _None._
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F010 | BigQuery |  | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F010 | BigQuery |  | Both | Yes |  |
 
 {% enddocs %}
 
@@ -152,7 +123,7 @@ _None._
 - **Node kind:** People / team
 - **Domain:** Support / Sales
 - **Process stage:** 02 · Users & teams
-- **Represented as:** dbt source 
+- **Represented as:** dbt source (origin system: sends data, receives none)
 - **Also written as:** Customer Service/Sales
 - **Core entities:** Customer, Opportunity, Order
 - **Metrics / KPIs:** —
@@ -163,14 +134,13 @@ _None._
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F011 | jobs.ch B2B Frontend |  | Yes | Generic "B2B frontends" expanded to all four known B2B frontends (inferred) |
-| F012 | jobup.ch B2B Frontend |  | Yes | Generic "B2B frontends" expanded to all four known B2B frontends (inferred) |
-| F013 | jobscout24.ch B2B Frontend |  | Yes | Generic "B2B frontends" expanded to all four known B2B frontends (inferred) |
-| F014 | jobcloud.ai B2B Frontend |  | Yes | Generic "B2B frontends" expanded to all four known B2B frontends (inferred) |
-| F015 | Salesforce 1 |  | Yes |  |
-| F016 | Salesforce 2 (Programmatic) |  | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F011 | jobs.ch B2B Frontend |  | One row | Yes |  |
+| F012 | jobup.ch B2B Frontend |  | One row | Yes |  |
+| F013 | jobscout24.ch B2B Frontend |  | One row | Yes |  |
+| F014 | jobcloud.ai B2B Frontend |  | One row | Yes |  |
+| F015 | Salesforce |  | Both | Yes |  |
 
 {% enddocs %}
 
@@ -180,7 +150,7 @@ _None._
 - **Node kind:** People / team
 - **Domain:** B2C
 - **Process stage:** 02 · Users & teams
-- **Represented as:** dbt source 
+- **Represented as:** dbt source (origin system: sends data, receives none)
 - **Also written as:** Customers, Users
 - **Core entities:** User
 - **Metrics / KPIs:** —
@@ -193,13 +163,13 @@ _None._
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F017 | jobs.ch / jobup.ch B2C Frontends |  | Yes | "Users" and "Customers" (core entity User) treated as the same B2C end-user actor |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F017 | jobs.ch / jobup.ch B2C Frontends |  | Both | Yes |  |
 
 {% enddocs %}
 
-{% docs sys_jobs_ch_b2b_fe %}
+{% docs sys_jobs_se_ch_b2b_fe %}
 **jobs.ch B2B Frontend** · Web frontend
 
 - **Node kind:** Frontend
@@ -212,15 +182,15 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F011 | Customer Service / Sales |  | Yes | Generic "B2B frontends" expanded to all four known B2B frontends (inferred) |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F011 | Customer Service / Sales |  | One row | Yes |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F018 | jobs.ch (JobsSE) |  | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F018 | jobs.ch (JobsSE) |  | Both | Yes |  |
 
 {% enddocs %}
 
@@ -237,15 +207,15 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F012 | Customer Service / Sales |  | Yes | Generic "B2B frontends" expanded to all four known B2B frontends (inferred) |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F012 | Customer Service / Sales |  | One row | Yes |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F019 | jobup |  | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F019 | jobup |  | Both | Yes |  |
 
 {% enddocs %}
 
@@ -264,15 +234,15 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F013 | Customer Service / Sales |  | Yes | Generic "B2B frontends" expanded to all four known B2B frontends (inferred) |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F013 | Customer Service / Sales |  | One row | Yes |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F020 | jobscout24 (JS24) |  | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F020 | jobscout24 (JS24) |  | One row | Yes |  |
 
 {% enddocs %}
 
@@ -291,19 +261,20 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F014 | Customer Service / Sales |  | Yes | Generic "B2B frontends" expanded to all four known B2B frontends (inferred) |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F014 | Customer Service / Sales |  | One row | Yes |  |
+| F046 | marketplace (jobcloud.ai / ONE) |  | One row | ⚠️ No: two-way flow, F021 drawn instead |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F021 | marketplace (jobcloud.ai / ONE) |  | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F021 | marketplace (jobcloud.ai / ONE) |  | One row | Yes |  |
 
 {% enddocs %}
 
-{% docs sys_jobs_ch %}
+{% docs sys_jobs_se_ch_b2b %}
 **jobs.ch (JobsSE)** · MySQL (operational DB)
 
 - **Node kind:** System
@@ -318,28 +289,24 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F003 | x28 |  | Yes |  |
-| F006 | kumo |  | Yes |  |
-| F018 | jobs.ch B2B Frontend |  | Yes |  |
-| F054 | Salesforce 1 |  | ⚠️ No: two-way flow, F022 drawn instead |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F018 | jobs.ch B2B Frontend |  | Both | Yes |  |
+| F054 | Salesforce |  | One row | ⚠️ No: two-way flow, F022 drawn instead |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F022 | Salesforce 1 |  | Yes |  |
-| F023 | Joveo – PPP Instance |  | Yes | List shorthand expanded |
-| F024 | Datapool |  | Yes |  |
-| F025 | Joveo – Marketing Instance |  | Yes | List shorthand expanded |
-| F026 | Partner Networks |  | Yes |  |
-| F027 | Jobmailer |  | Yes |  |
-| F028 | EaglyFly | daily revenue | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F022 | Salesforce |  | Both | Yes |  |
+| F024 | Datapool |  | Both | Yes |  |
+| F026 | Partner Networks |  | Both | Yes |  |
+| F027 | Jobmailer |  | Both | Yes |  |
+| F028 | EagleFly | daily revenue | Both | Yes |  |
 
 {% enddocs %}
 
-{% docs sys_jobup %}
+{% docs sys_jobup_ch_b2b %}
 **jobup** · MySQL (operational DB)
 
 - **Node kind:** System
@@ -352,20 +319,20 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F019 | jobup.ch B2B Frontend |  | Yes |  |
-| F055 | Salesforce 1 |  | ⚠️ No: two-way flow, F029 drawn instead |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F019 | jobup.ch B2B Frontend |  | Both | Yes |  |
+| F055 | Salesforce |  | One row | ⚠️ No: two-way flow, F029 drawn instead |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F029 | Salesforce 1 |  | Yes |  |
-| F030 | Joveo – PPP Instance |  | Yes |  |
-| F031 | Datapool |  | Yes |  |
-| F032 | Jobmailer |  | Yes |  |
-| F033 | EaglyFly | daily revenue | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F029 | Salesforce |  | Both | Yes |  |
+| F030 | PRO |  | Both | Yes |  |
+| F031 | Datapool |  | Both | Yes |  |
+| F032 | Jobmailer |  | Both | Yes |  |
+| F033 | EagleFly | daily revenue | Both | Yes |  |
 
 {% enddocs %}
 
@@ -382,22 +349,20 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F004 | x28 |  | Yes |  |
-| F007 | kumo |  | Yes |  |
-| F020 | jobscout24.ch B2B Frontend |  | Yes |  |
-| F056 | Salesforce 1 |  | ⚠️ No: two-way flow, F034 drawn instead |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F020 | jobscout24.ch B2B Frontend |  | One row | Yes |  |
+| F056 | Salesforce |  | One row | ⚠️ No: two-way flow, F034 drawn instead |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F034 | Salesforce 1 |  | Yes |  |
-| F035 | Datapool |  | Yes |  |
-| F036 | Salesforce Marketing Cloud |  | Yes |  |
-| F037 | jobscout24.ch B2C Frontend |  | Yes | Assumed B2C frontend (Datapool also feeds jobscout24.ch B2C) |
-| F038 | EaglyFly | daily revenue | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F034 | Salesforce |  | Both | Yes |  |
+| F035 | Datapool |  | Both | Yes |  |
+| F036 | Salesforce Marketing Cloud |  | Both | Yes |  |
+| F037 | jobscout24.ch B2C Frontend |  | One row | Yes |  |
+| F038 | EagleFly | daily revenue | Both | Yes |  |
 
 {% enddocs %}
 
@@ -416,28 +381,27 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F001 | moneyhouse |  | Yes |  |
-| F002 | Admin UID Register |  | Yes |  |
-| F021 | jobcloud.ai B2B Frontend |  | Yes |  |
-| F057 | Salesforce 1 |  | ⚠️ No: two-way flow, F039 drawn instead |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F001 | moneyhouse |  | Both | Yes |  |
+| F002 | Admin UID Register |  | Both | Yes |  |
+| F021 | jobcloud.ai B2B Frontend |  | One row | Yes |  |
+| F057 | Salesforce |  | One row | ⚠️ No: two-way flow, F039 drawn instead |  |
+| F074 | PRO |  | Both | Yes |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F039 | Salesforce 1 |  | Yes |  |
-| F040 | Safo | schema: marketplace_adapter_salesforce | Yes | Schema name mapped to its system |
-| F041 | PRO | schema: marketplace_core | Yes | Schema name mapped to its system |
-| F042 | Datapool |  | Yes |  |
-| F043 | Joveo – Marketing Instance |  | Yes |  |
-| F044 | Partner Networks |  | Yes |  |
-| F045 | Salesforce Marketing Cloud |  | Yes |  |
-| F046 | jobcloud.ai B2C Frontend |  | Yes | Assumed B2C frontend (Datapool also feeds jobcloud.ai B2C); could be the B2B frontend — verify |
-| F047 | Tealium |  | Yes |  |
-| F048 | Abacus |  | Yes |  |
-| F049 | EaglyFly | daily revenue | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F039 | Salesforce |  | Both | Yes |  |
+| F041 | PRO | schema: marketplace_core | One row | ⚠️ No: two-way flow, F074 drawn instead |  |
+| F042 | Datapool |  | Both | Yes |  |
+| F044 | Partner Networks |  | One row | Yes |  |
+| F045 | Salesforce Marketing Cloud |  | One row | Yes |  |
+| F046 | jobcloud.ai B2B Frontend |  | One row | ⚠️ No: two-way flow, F021 drawn instead |  |
+| F047 | Tealium |  | One row | Yes |  |
+| F048 | Abacus |  | One row | Yes |  |
+| F049 | EagleFly | daily revenue | Both | Yes |  |
 
 {% enddocs %}
 
@@ -447,7 +411,7 @@ _None._
 - **Node kind:** External service
 - **Domain:** Support
 - **Process stage:** 05 · CRM & customer support
-- **Represented as:** dbt source 
+- **Represented as:** dbt source (origin system: sends data, receives none)
 - **Also written as:** —
 - **Core entities:** Ticket
 - **Metrics / KPIs:** —
@@ -458,23 +422,22 @@ _None._
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F050 | Salesforce 1 |  | Yes |  |
-| F051 | Aircall |  | Yes |  |
-| F052 | Intercom |  | Yes |  |
-| F053 | Safo | label: 'also to Safo' | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F050 | Salesforce |  | Both | Yes |  |
+| F051 | Aircall |  | Both | Yes |  |
+| F052 | Intercom |  | Both | Yes |  |
 
 {% enddocs %}
 
-{% docs sys_salesforce_1 %}
-**Salesforce 1** · CRM (Salesforce)
+{% docs sys_salesforce %}
+**Salesforce** · CRM (Salesforce)
 
 - **Node kind:** System
 - **Domain:** B2B
 - **Process stage:** 05 · CRM & customer support
 - **Represented as:** dbt stub model (receives data and passes it on)
-- **Also written as:** —
+- **Also written as:** Salesforce 1, Salesforce 2, Salesforce 3, Safo, Safo / Safo1
 - **Core entities:** Customer, Opportunity, Order
 - **Metrics / KPIs:** New New Customers, Order Intake, Orders Placed
 
@@ -482,85 +445,32 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F009 | Anzeigedaten |  | Yes |  |
-| F015 | Customer Service / Sales |  | Yes |  |
-| F022 | jobs.ch (JobsSE) |  | Yes |  |
-| F029 | jobup |  | Yes |  |
-| F034 | jobscout24 (JS24) |  | Yes |  |
-| F039 | marketplace (jobcloud.ai / ONE) |  | Yes |  |
-| F050 | Zendesk |  | Yes |  |
-| F094 | Datendrehscheibe |  | ⚠️ No: two-way flow, F060 drawn instead |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F009 | Anzeigedaten |  | Both | Yes |  |
+| F015 | Customer Service / Sales |  | Both | Yes |  |
+| F022 | jobs.ch (JobsSE) |  | Both | Yes |  |
+| F029 | jobup |  | Both | Yes |  |
+| F034 | jobscout24 (JS24) |  | Both | Yes |  |
+| F039 | marketplace (jobcloud.ai / ONE) |  | Both | Yes |  |
+| F050 | Zendesk |  | Both | Yes |  |
+| F068 | PRO |  | Both | Yes |  |
+| F094 | Datendrehscheibe |  | One row | ⚠️ No: two-way flow, F060 drawn instead |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F054 | jobs.ch (JobsSE) |  | ⚠️ No: two-way flow, F022 drawn instead |  |
-| F055 | jobup |  | ⚠️ No: two-way flow, F029 drawn instead |  |
-| F056 | jobscout24 (JS24) |  | ⚠️ No: two-way flow, F034 drawn instead |  |
-| F057 | marketplace (jobcloud.ai / ONE) |  | ⚠️ No: two-way flow, F039 drawn instead |  |
-| F058 | Aircall |  | Yes |  |
-| F059 | Salesforce Marketing Cloud |  | Yes |  |
-| F060 | Datendrehscheibe |  | Yes |  |
-| F061 | Abacus |  | Yes |  |
-| F062 | EaglyFly | order intake | Yes | List shorthand expanded |
-
-{% enddocs %}
-
-{% docs sys_salesforce_2 %}
-**Salesforce 2 (Programmatic)** · CRM (Salesforce)
-
-- **Node kind:** System
-- **Domain:** B2B
-- **Process stage:** 05 · CRM & customer support
-- **Represented as:** dbt stub model (receives data and passes it on)
-- **Also written as:** Salesforce 2
-- **Core entities:** Customer, Opportunity, Order
-- **Metrics / KPIs:** New New Customers, Order Intake, Orders Placed
-
-**Notes:** Opportunity is used as framework contract; Order 'should be Opportunity' per lineage slide.
-
-#### Receives data from
-
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F016 | Customer Service / Sales |  | Yes |  |
-| F068 | Joveo – PPP Instance |  | Yes | Generic "Joveo" resolved to PPP instance (the only Joveo instance that sends to this system) |
-
-#### Sends data to
-
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F063 | Joveo – PPP Instance |  | ⚠️ No: two-way flow, F068 drawn instead |  |
-| F064 | Abacus |  | Yes |  |
-| F065 | EaglyFly | order intake | Yes | List shorthand expanded |
-
-{% enddocs %}
-
-{% docs sys_salesforce_3 %}
-**Salesforce 3** · CRM (Salesforce)
-
-- **Node kind:** System
-- **Domain:** B2B
-- **Process stage:** 05 · CRM & customer support
-- **Represented as:** dbt source 
-- **Also written as:** —
-- **Core entities:** —
-- **Metrics / KPIs:** Order Intake
-
-**Notes:** Only named in the finance flow ('Salesforce 1, 2 & 3'). Core entities not shown in source.
-
-#### Receives data from
-
-_None._
-
-#### Sends data to
-
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F066 | EaglyFly |  | Yes | List shorthand expanded |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F054 | jobs.ch (JobsSE) |  | One row | ⚠️ No: two-way flow, F022 drawn instead |  |
+| F055 | jobup |  | One row | ⚠️ No: two-way flow, F029 drawn instead |  |
+| F056 | jobscout24 (JS24) |  | One row | ⚠️ No: two-way flow, F034 drawn instead |  |
+| F057 | marketplace (jobcloud.ai / ONE) |  | One row | ⚠️ No: two-way flow, F039 drawn instead |  |
+| F058 | Aircall |  | Both | Yes |  |
+| F059 | Salesforce Marketing Cloud |  | Both | Yes |  |
+| F060 | Datendrehscheibe |  | One row | Yes |  |
+| F061 | Abacus |  | Both | Yes |  |
+| F062 | EagleFly | order intake | Both | Yes |  |
+| F063 | PRO |  | One row | ⚠️ No: two-way flow, F068 drawn instead |  |
 
 {% enddocs %}
 
@@ -577,15 +487,15 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F052 | Zendesk |  | Yes |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F052 | Zendesk |  | Both | Yes |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F067 | Frontends (unspecified) | label: 'to frontend' | Yes | Target frontend not specified; verify |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F067 | Frontends (unspecified) | label: 'to frontend' | One row | Yes |  |
 
 {% enddocs %}
 
@@ -604,10 +514,10 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F051 | Zendesk |  | Yes |  |
-| F058 | Salesforce 1 |  | Yes |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F051 | Zendesk |  | Both | Yes |  |
+| F058 | Salesforce |  | Both | Yes |  |
 
 #### Sends data to
 
@@ -620,9 +530,9 @@ _None._
 
 - **Node kind:** System
 - **Domain:** Unknown
-- **Process stage:** 05 · CRM & customer support
-- **Represented as:** dbt exposure (end point: receives data, sends none)
-- **Also written as:** —
+- **Process stage:** 06 · Ad distribution & marketing
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** Joveo, Joveo PPP instance, Joveo – PPP Instance, Joveo Marketing, Joveo Marketing instance, Joveo – Marketing Instance
 - **Core entities:** —
 - **Metrics / KPIs:** —
 
@@ -630,67 +540,20 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F041 | marketplace (jobcloud.ai / ONE) | schema: marketplace_core | Yes | Schema name mapped to its system |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F030 | jobup |  | Both | Yes |  |
+| F041 | marketplace (jobcloud.ai / ONE) | schema: marketplace_core | One row | ⚠️ No: two-way flow, F074 drawn instead |  |
+| F063 | Salesforce |  | One row | ⚠️ No: two-way flow, F068 drawn instead |  |
 
 #### Sends data to
 
-_None._
-
-{% enddocs %}
-
-{% docs sys_safo %}
-**Safo** · System (not described)
-
-- **Node kind:** System
-- **Domain:** Unknown
-- **Process stage:** 05 · CRM & customer support
-- **Represented as:** dbt exposure (end point: receives data, sends none)
-- **Also written as:** Safo ('also to Safo'), Safo / Safo1
-- **Core entities:** —
-- **Metrics / KPIs:** —
-
-**Notes:** Linked by 'quantity > 0' join conditions in the ER diagram. Core entities in source: 1 table (see ER diagram).
-
-#### Receives data from
-
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F040 | marketplace (jobcloud.ai / ONE) | schema: marketplace_adapter_salesforce | Yes | Schema name mapped to its system |
-| F053 | Zendesk | label: 'also to Safo' | Yes |  |
-
-#### Sends data to
-
-_None._
-
-{% enddocs %}
-
-{% docs sys_joveo_ppp %}
-**Joveo – PPP Instance** · Programmatic job ad distribution
-
-- **Node kind:** External service
-- **Domain:** B2B
-- **Process stage:** 06 · Ad distribution & marketing
-- **Represented as:** dbt stub model (receives data and passes it on)
-- **Also written as:** Joveo, Joveo PPP instance, Joveo – PPP instance
-- **Core entities:** —
-- **Metrics / KPIs:** —
-
-#### Receives data from
-
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F023 | jobs.ch (JobsSE) |  | Yes | List shorthand expanded |
-| F030 | jobup |  | Yes |  |
-| F063 | Salesforce 2 (Programmatic) |  | ⚠️ No: two-way flow, F068 drawn instead |  |
-
-#### Sends data to
-
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F068 | Salesforce 2 (Programmatic) |  | Yes | Generic "Joveo" resolved to PPP instance (the only Joveo instance that sends to this system) |
-| F069 | Datapool |  | Yes | Generic "Joveo" resolved to PPP instance (the only Joveo instance that sends to this system) |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F068 | Salesforce |  | Both | Yes |  |
+| F069 | Datapool |  | Both | Yes |  |
+| F074 | marketplace (jobcloud.ai / ONE) |  | Both | Yes |  |
+| F076 | Partner Networks |  | Both | Yes |  |
 
 {% enddocs %}
 
@@ -707,52 +570,24 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F005 | x28 |  | Yes |  |
-| F008 | kumo |  | Yes |  |
-| F024 | jobs.ch (JobsSE) |  | Yes |  |
-| F031 | jobup |  | Yes |  |
-| F035 | jobscout24 (JS24) |  | Yes |  |
-| F042 | marketplace (jobcloud.ai / ONE) |  | Yes |  |
-| F069 | Joveo – PPP Instance |  | Yes | Generic "Joveo" resolved to PPP instance (the only Joveo instance that sends to this system) |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F008 | kumo |  | Both | Yes |  |
+| F024 | jobs.ch (JobsSE) |  | Both | Yes |  |
+| F031 | jobup |  | Both | Yes |  |
+| F035 | jobscout24 (JS24) |  | Both | Yes |  |
+| F042 | marketplace (jobcloud.ai / ONE) |  | Both | Yes |  |
+| F069 | PRO |  | Both | Yes |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F070 | Partner Networks |  | Yes |  |
-| F071 | unity |  | Yes |  |
-| F072 | jobs.ch / jobup.ch B2C Frontends |  | Yes | List expanded into one frontend per brand |
-| F073 | jobscout24.ch B2C Frontend |  | Yes | List expanded into one frontend per brand |
-| F074 | jobcloud.ai B2C Frontend |  | Yes | List expanded into one frontend per brand |
-| F075 | Vertical B2C Frontends |  | Yes | List expanded into one frontend per brand |
-
-{% enddocs %}
-
-{% docs sys_joveo_marketing %}
-**Joveo – Marketing Instance** · Programmatic job ad distribution
-
-- **Node kind:** External service
-- **Domain:** Marketing
-- **Process stage:** 06 · Ad distribution & marketing
-- **Represented as:** dbt stub model (receives data and passes it on)
-- **Also written as:** Joveo Marketing, Joveo Marketing instance, Joveo – Marketing instance
-- **Core entities:** —
-- **Metrics / KPIs:** —
-
-#### Receives data from
-
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F025 | jobs.ch (JobsSE) |  | Yes | List shorthand expanded |
-| F043 | marketplace (jobcloud.ai / ONE) |  | Yes |  |
-
-#### Sends data to
-
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F076 | Partner Networks |  | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F070 | Partner Networks |  | Both | Yes |  |
+| F071 | unity |  | Both | Yes |  |
+| F072 | jobs.ch / jobup.ch B2C Frontends |  | One row | Yes |  |
+| F073 | jobscout24.ch B2C Frontend |  | One row | Yes |  |
+| F075 | Vertical B2C Frontends |  | One row | Yes |  |
 
 {% enddocs %}
 
@@ -769,12 +604,12 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F026 | jobs.ch (JobsSE) |  | Yes |  |
-| F044 | marketplace (jobcloud.ai / ONE) |  | Yes |  |
-| F070 | Datapool |  | Yes |  |
-| F076 | Joveo – Marketing Instance |  | Yes |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F026 | jobs.ch (JobsSE) |  | Both | Yes |  |
+| F044 | marketplace (jobcloud.ai / ONE) |  | One row | Yes |  |
+| F070 | Datapool |  | Both | Yes |  |
+| F076 | PRO |  | Both | Yes |  |
 
 #### Sends data to
 
@@ -795,11 +630,11 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F036 | jobscout24 (JS24) |  | Yes |  |
-| F045 | marketplace (jobcloud.ai / ONE) |  | Yes |  |
-| F059 | Salesforce 1 |  | Yes |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F036 | jobscout24 (JS24) |  | Both | Yes |  |
+| F045 | marketplace (jobcloud.ai / ONE) |  | One row | Yes |  |
+| F059 | Salesforce |  | Both | Yes |  |
 
 #### Sends data to
 
@@ -820,19 +655,19 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F071 | Datapool |  | Yes |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F071 | Datapool |  | Both | Yes |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F077 | jobs.ch / jobup.ch B2C Frontends |  | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F077 | jobs.ch / jobup.ch B2C Frontends |  | One row | Yes |  |
 
 {% enddocs %}
 
-{% docs sys_b2c_fe_jobs_jobup %}
+{% docs sys_jobs_jobup_ch_b2c_fe %}
 **jobs.ch / jobup.ch B2C Frontends** · Web / app frontend
 
 - **Node kind:** Frontend
@@ -845,22 +680,22 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F017 | B2C Users |  | Yes | "Users" and "Customers" (core entity User) treated as the same B2C end-user actor |
-| F072 | Datapool |  | Yes | List expanded into one frontend per brand |
-| F077 | unity |  | Yes |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F017 | B2C Users |  | Both | Yes |  |
+| F072 | Datapool |  | One row | Yes |  |
+| F077 | unity |  | One row | Yes |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F078 | event.click |  | Yes |  |
-| F079 | Application Tracker | App / Web | Yes |  |
-| F080 | Email Tracker |  | Yes |  |
-| F081 | Jobtracker |  | Yes |  |
-| F082 | nginx |  | Yes | nginx scope is jobs.ch/jobup.ch tracking, so mapped to those B2C frontends |
-| F083 | Tealium |  | Yes | "All B2C frontends" mapped to jobs.ch/jobup.ch B2C frontends (Tealium tracking scope); verify whether jobscout24/jobcloud.ai frontends also feed Tealium |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F078 | event.click |  | Both | Yes |  |
+| F079 | Application Tracker | App / Web | One row | Yes |  |
+| F080 | Email Tracker |  | One row | Yes |  |
+| F081 | Jobtracker |  | One row | Yes |  |
+| F082 | nginx |  | One row | Yes |  |
+| F083 | Tealium |  | Both | Yes |  |
 
 {% enddocs %}
 
@@ -879,35 +714,9 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F067 | Intercom | label: 'to frontend' | Yes | Target frontend not specified; verify |
-
-#### Sends data to
-
-_None._
-
-{% enddocs %}
-
-{% docs sys_jobcloud_b2c_fe %}
-**jobcloud.ai B2C Frontend** · Web / app frontend
-
-- **Node kind:** Frontend
-- **Domain:** B2C
-- **Process stage:** 07 · B2C frontends & user services
-- **Represented as:** dbt exposure (end point: receives data, sends none)
-- **Also written as:** jobcloud.ai frontend
-- **Core entities:** —
-- **Metrics / KPIs:** —
-
-**Notes:** Added: referenced in flows but had no row of its own.
-
-#### Receives data from
-
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F046 | marketplace (jobcloud.ai / ONE) |  | Yes | Assumed B2C frontend (Datapool also feeds jobcloud.ai B2C); could be the B2B frontend — verify |
-| F074 | Datapool |  | Yes | List expanded into one frontend per brand |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F067 | Intercom | label: 'to frontend' | One row | Yes |  |
 
 #### Sends data to
 
@@ -930,10 +739,10 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F027 | jobs.ch (JobsSE) |  | Yes |  |
-| F032 | jobup |  | Yes |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F027 | jobs.ch (JobsSE) |  | Both | Yes |  |
+| F032 | jobup |  | Both | Yes |  |
 
 #### Sends data to
 
@@ -956,10 +765,10 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F037 | jobscout24 (JS24) |  | Yes | Assumed B2C frontend (Datapool also feeds jobscout24.ch B2C) |
-| F073 | Datapool |  | Yes | List expanded into one frontend per brand |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F037 | jobscout24 (JS24) |  | One row | Yes |  |
+| F073 | Datapool |  | One row | Yes |  |
 
 #### Sends data to
 
@@ -982,9 +791,9 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F075 | Datapool |  | Yes | List expanded into one frontend per brand |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F075 | Datapool |  | One row | Yes |  |
 
 #### Sends data to
 
@@ -1005,15 +814,15 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F078 | jobs.ch / jobup.ch B2C Frontends |  | Yes |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F078 | jobs.ch / jobup.ch B2C Frontends |  | Both | Yes |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F084 | Tealium |  | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F084 | Tealium |  | One row | Yes |  |
 
 {% enddocs %}
 
@@ -1030,16 +839,16 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F079 | jobs.ch / jobup.ch B2C Frontends | App / Web | Yes |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F079 | jobs.ch / jobup.ch B2C Frontends | App / Web | One row | Yes |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F085 | Tealium |  | Yes | "trackers" expanded to the three tracker streams |
-| F086 | EaglyFly | f_ad_applications | Yes | Assumed "DWH" = EaglyFly (the only DWH in the table) |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F085 | Tealium |  | Both | Yes |  |
+| F086 | EagleFly | f_ad_applications | One row | Yes |  |
 
 {% enddocs %}
 
@@ -1056,15 +865,15 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F080 | jobs.ch / jobup.ch B2C Frontends |  | Yes |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F080 | jobs.ch / jobup.ch B2C Frontends |  | One row | Yes |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F087 | Tealium |  | Yes | "trackers" expanded to the three tracker streams |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F087 | Tealium |  | Both | Yes |  |
 
 {% enddocs %}
 
@@ -1083,16 +892,16 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F081 | jobs.ch / jobup.ch B2C Frontends |  | Yes |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F081 | jobs.ch / jobup.ch B2C Frontends |  | One row | Yes |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F088 | Tealium |  | Yes | "trackers" expanded to the three tracker streams |
-| F089 | EaglyFly | f_ad_hits | Yes | Assumed "DWH" = EaglyFly (the only DWH in the table) |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F088 | Tealium |  | Both | Yes |  |
+| F089 | EagleFly | f_ad_hits | One row | Yes |  |
 
 {% enddocs %}
 
@@ -1109,15 +918,15 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F082 | jobs.ch / jobup.ch B2C Frontends |  | Yes | nginx scope is jobs.ch/jobup.ch tracking, so mapped to those B2C frontends |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F082 | jobs.ch / jobup.ch B2C Frontends |  | One row | Yes |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F090 | Tealium |  | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F090 | Tealium |  | One row | Yes |  |
 
 {% enddocs %}
 
@@ -1134,22 +943,22 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F047 | marketplace (jobcloud.ai / ONE) |  | Yes |  |
-| F083 | jobs.ch / jobup.ch B2C Frontends |  | Yes | "All B2C frontends" mapped to jobs.ch/jobup.ch B2C frontends (Tealium tracking scope); verify whether jobscout24/jobcloud.ai frontends also feed Tealium |
-| F084 | event.click |  | Yes |  |
-| F085 | Application Tracker |  | Yes | "trackers" expanded to the three tracker streams |
-| F087 | Email Tracker |  | Yes | "trackers" expanded to the three tracker streams |
-| F088 | Jobtracker |  | Yes | "trackers" expanded to the three tracker streams |
-| F090 | nginx |  | Yes |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F047 | marketplace (jobcloud.ai / ONE) |  | One row | Yes |  |
+| F083 | jobs.ch / jobup.ch B2C Frontends |  | Both | Yes |  |
+| F084 | event.click |  | One row | Yes |  |
+| F085 | Application Tracker |  | Both | Yes |  |
+| F087 | Email Tracker |  | Both | Yes |  |
+| F088 | Jobtracker |  | Both | Yes |  |
+| F090 | nginx |  | One row | Yes |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F091 | Google Analytics |  | Yes |  |
-| F092 | BigQuery |  | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F091 | Google Analytics |  | Both | Yes |  |
+| F092 | BigQuery |  | Both | Yes |  |
 
 {% enddocs %}
 
@@ -1166,15 +975,15 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F091 | Tealium |  | Yes |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F091 | Tealium |  | Both | Yes |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F093 | BigQuery |  | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F093 | BigQuery |  | Both | Yes |  |
 
 {% enddocs %}
 
@@ -1193,17 +1002,17 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F060 | Salesforce 1 |  | Yes |  |
-| F096 | Abacus |  | ⚠️ No: two-way flow, F095 drawn instead |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F060 | Salesforce |  | One row | Yes |  |
+| F096 | Abacus |  | One row | ⚠️ No: two-way flow, F095 drawn instead |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F094 | Salesforce 1 |  | ⚠️ No: two-way flow, F060 drawn instead |  |
-| F095 | Abacus |  | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F094 | Salesforce |  | One row | ⚠️ No: two-way flow, F060 drawn instead |  |
+| F095 | Abacus |  | Both | Yes |  |
 
 {% enddocs %}
 
@@ -1218,59 +1027,56 @@ _None._
 - **Core entities:** Bill, Cost Center, Customer, Employee
 - **Metrics / KPIs:** Costs, EBITDA, FTE, Headcount, New New Customers, Revenue
 
-**Notes:** Bookings remapped to Ringier / TX Group by account and cost center in EaglyFly.
+**Notes:** Bookings remapped to Ringier / TX Group by account and cost center in EagleFly.
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F048 | marketplace (jobcloud.ai / ONE) |  | Yes |  |
-| F061 | Salesforce 1 |  | Yes |  |
-| F064 | Salesforce 2 (Programmatic) |  | Yes |  |
-| F095 | Datendrehscheibe |  | Yes |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F048 | marketplace (jobcloud.ai / ONE) |  | One row | Yes |  |
+| F061 | Salesforce |  | Both | Yes |  |
+| F095 | Datendrehscheibe |  | Both | Yes |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F096 | Datendrehscheibe |  | ⚠️ No: two-way flow, F095 drawn instead |  |
-| F097 | EaglyFly | bookings / final revenue | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F096 | Datendrehscheibe |  | One row | ⚠️ No: two-way flow, F095 drawn instead |  |
+| F097 | EagleFly | bookings / final revenue | Both | Yes |  |
 
 {% enddocs %}
 
-{% docs sys_eaglyfly %}
-**EaglyFly** · Data warehouse
+{% docs sys_eaglefly %}
+**EagleFly** · Data warehouse
 
 - **Node kind:** System
 - **Domain:** Analytics & BI
 - **Process stage:** 10 · Data warehouse & BI
 - **Represented as:** dbt stub model (receives data and passes it on)
-- **Also written as:** DWH (f_ad_applications), DWH (f_ad_hits), EaglyFly (daily revenue), EaglyFly (order intake), EaglyFly DWH (bookings / final revenue)
+- **Also written as:** DWH (f_ad_applications), DWH (f_ad_hits), EagleFly (daily revenue), EagleFly (order intake), EagleFly DWH (bookings / final revenue)
 - **Core entities:** Ad (Unified model (star schema)), Booking, Order, Revenue
 - **Metrics / KPIs:** Calculated Daily Revenue, Final Revenue, Order Intake
 
-**Notes:** Name as written on board. Likely hosts the 'Ad unified' star schema. Also referenced as "EaglyFly DWH" and "DWH".
+**Notes:** Name as written on board. Likely hosts the 'Ad unified' star schema. Also referenced as "EagleFly DWH" and "DWH".
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F028 | jobs.ch (JobsSE) | daily revenue | Yes |  |
-| F033 | jobup | daily revenue | Yes |  |
-| F038 | jobscout24 (JS24) | daily revenue | Yes |  |
-| F049 | marketplace (jobcloud.ai / ONE) | daily revenue | Yes |  |
-| F062 | Salesforce 1 | order intake | Yes | List shorthand expanded |
-| F065 | Salesforce 2 (Programmatic) | order intake | Yes | List shorthand expanded |
-| F066 | Salesforce 3 |  | Yes | List shorthand expanded |
-| F086 | Application Tracker | f_ad_applications | Yes | Assumed "DWH" = EaglyFly (the only DWH in the table) |
-| F089 | Jobtracker | f_ad_hits | Yes | Assumed "DWH" = EaglyFly (the only DWH in the table) |
-| F097 | Abacus | bookings / final revenue | Yes |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F028 | jobs.ch (JobsSE) | daily revenue | Both | Yes |  |
+| F033 | jobup | daily revenue | Both | Yes |  |
+| F038 | jobscout24 (JS24) | daily revenue | Both | Yes |  |
+| F049 | marketplace (jobcloud.ai / ONE) | daily revenue | Both | Yes |  |
+| F062 | Salesforce | order intake | Both | Yes |  |
+| F086 | Application Tracker | f_ad_applications | One row | Yes |  |
+| F089 | Jobtracker | f_ad_hits | One row | Yes |  |
+| F097 | Abacus | bookings / final revenue | Both | Yes |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F098 | Tableau |  | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F098 | Tableau |  | Both | Yes |  |
 
 {% enddocs %}
 
@@ -1289,16 +1095,16 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F098 | EaglyFly |  | Yes |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F098 | EagleFly |  | Both | Yes |  |
 
 #### Sends data to
 
-| Flow | To | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F099 | TX Group |  | Yes |  |
-| F100 | Ringier |  | Yes |  |
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F099 | TX Group |  | Both | Yes |  |
+| F100 | Ringier |  | Both | Yes |  |
 
 {% enddocs %}
 
@@ -1315,11 +1121,11 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F010 | Marketing Vendor Tracking |  | Yes |  |
-| F092 | Tealium |  | Yes |  |
-| F093 | Google Analytics |  | Yes |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F010 | Marketing Vendor Tracking |  | Both | Yes |  |
+| F092 | Tealium |  | Both | Yes |  |
+| F093 | Google Analytics |  | Both | Yes |  |
 
 #### Sends data to
 
@@ -1340,9 +1146,9 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F100 | Tableau |  | Yes |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F100 | Tableau |  | Both | Yes |  |
 
 #### Sends data to
 
@@ -1363,9 +1169,9 @@ _None._
 
 #### Receives data from
 
-| Flow | From | Detail | In lineage graph | Note |
-|---|---|---|---|---|
-| F099 | Tableau |  | Yes |  |
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F099 | Tableau |  | Both | Yes |  |
 
 #### Sends data to
 
