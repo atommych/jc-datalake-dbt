@@ -5,13 +5,13 @@ This project documents the data and systems landscape from `data_sources_standar
 
 ## How to read the lineage graph
 
-Each node is one system and each edge is one row of the **Data Flows** sheet (F001–F100), except the flagged two-way flows listed below.
+Each node is one system and each edge is one row of the **Data Flows** sheet (F001–F124), except the flagged two-way flows listed below.
 
 | dbt resource | Represents | Count |
 |---|---|---|
-| Source | Origin systems: send data, receive none | 8 |
-| Model (stub) | Systems that receive data and pass it on | 25 |
-| Exposure | End points: receive data, send none | 10 |
+| Source | Origin systems: send data, receive none | 12 |
+| Model (stub) | Systems that receive data and pass it on | 37 |
+| Exposure | End points: receive data, send none | 11 |
 
 Each system's page lists its inbound and outbound flows with Flow ID, flow detail, whether the original table stated the flow in both rows, and any mapping note.
 
@@ -23,15 +23,20 @@ Stub models are coloured by stage in the lineage graph; sources stay green and e
 |---|---|---|
 | 01 · External & reference sources | — | moneyhouse, Admin UID Register, kumo, Anzeigedaten, Marketing Vendor Tracking |
 | 02 · Users & teams | — | Customer Service / Sales, B2C Users |
-| 03 · B2B frontends | `#8e63ce` | jobs.ch B2B Frontend, jobup.ch B2B Frontend, jobscout24.ch B2B Frontend, jobcloud.ai B2B Frontend |
+| 03 · B2B frontends | `#5fb825` | jobs.ch B2B Frontend, jobup.ch B2B Frontend, jobscout24.ch B2B Frontend, jobcloud.ai B2B Frontend |
 | 04 · Operational platforms | `#3b78e7` | jobs.ch (JobsSE), jobup, jobscout24 (JS24), marketplace (jobcloud.ai / ONE) |
 | 05 · CRM & customer support | `#d81b60` | Zendesk, Salesforce, Intercom, Aircall |
 | 06 · Ad distribution & marketing | `#b8860b` | PRO, Datapool, Partner Networks, Salesforce Marketing Cloud |
-| 07 · B2C frontends & user services | `#a0522d` | unity, jobs.ch / jobup.ch B2C Frontends, Frontends (unspecified), Jobmailer, jobscout24.ch B2C Frontend, Vertical B2C Frontends |
+| 07 · B2C frontends & user services | `#5fb825` | unity, jobs.ch / jobup.ch B2C Frontends, Frontends (unspecified), Jobmailer, jobscout24.ch B2C Frontend, Vertical B2C Frontends |
 | 08 · Tracking | `#78909c` | event.click, Application Tracker, Email Tracker, Jobtracker, nginx, Tealium, Google Analytics |
 | 09 · Finance | `#00acc1` | Datendrehscheibe, Abacus |
 | 10 · Data warehouse & BI | `#5c6bc0` | EagleFly, Tableau, BigQuery |
 | 11 · Shareholder reporting | — | Ringier, TX Group |
+| 12 · Lakehouse sources (MongoDB) | — | MongoDB raw-ppp-job-ads, MongoDB organic clicks collection, MongoDB sponsored clicks collection, MongoDB ml-driven-pacing collection |
+| 13 · Lakehouse bronze | `#8d6e63` | Bronze raw_ppp_job_ads, Bronze tracking_organic_clicks, Bronze tracking_sponsored_clicks, Bronze ml_driven_pacing |
+| 14 · Lakehouse silver | `#9e9e9e` | Silver tracking_organic_clicks, Silver ppp_job_ads, Silver tracking_sponsored_clicks, Silver ml_driven_pacing_forecasts |
+| 15 · Lakehouse gold | `#f9a825` | Gold organic_clicks_hourly_by_segment, Gold sponsored_clicks_hourly_by_segment, Gold organic_clicks_hourly, Gold pacing_forecast_vs_actuals_hourly |
+| 16 · Lakehouse query access | — | Amazon Athena (pro-ds-lakehouse workgroup) |
 
 ## Flagged two-way flows (cycles)
 
@@ -54,9 +59,7 @@ dbt does not allow cycles, so one direction of each two-way pair is left out of 
 Type these in the `--select` box under the lineage graph:
 
 - `+salesforce_1+` shows everything upstream and downstream of Salesforce 1.
-- `tag:stage_08` shows one process stage (here: tracking).
 - `tag:entity_customer` shows every system that holds Customer data.
-- `tag:domain_b2b` shows one domain.
 - `tag:two_way_flow` shows the systems involved in flagged two-way flows.
 
 ## Open assumptions from standardization

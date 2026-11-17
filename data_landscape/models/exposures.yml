@@ -206,3 +206,29 @@ exposures:
         process_stage: 11 · Shareholder reporting
       tags:
         - kind_organisation
+
+  - name: athena_pro_ds_lakehouse
+    label: Amazon Athena (pro-ds-lakehouse workgroup)
+    type: application
+    description: '{{ doc("sys_athena_pro_ds_lakehouse") }}'
+    owner:
+      name: TBD
+    depends_on:
+      - ref('gold_organic_clicks_hourly')
+      - ref('gold_organic_clicks_hourly_by_segment')
+      - ref('gold_pacing_forecast_vs_actuals_hourly')
+      - ref('gold_sponsored_clicks_hourly_by_segment')
+      - ref('silver_ml_driven_pacing_forecasts')
+      - ref('silver_ppp_job_ads')
+      - ref('silver_tracking_organic_clicks')
+      - ref('silver_tracking_sponsored_clicks')
+    config:
+      meta:
+        system_id: athena_pro_ds_lakehouse
+        system_name: Amazon Athena (pro-ds-lakehouse workgroup)
+        node_kind: System
+        type_technology: Query engine (10 GB scan cap per query)
+        domain: Data Lakehouse
+        process_stage: 16 · Lakehouse query access
+      tags:
+        - kind_system

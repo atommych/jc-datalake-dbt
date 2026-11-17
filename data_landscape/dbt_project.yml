@@ -37,5 +37,14 @@ models:
     10_data_warehouse_bi:
       +docs:
         node_color: '#5c6bc0'
+    13_lakehouse_bronze:
+      +docs:
+        node_color: '#8d6e63'
+    14_lakehouse_silver:
+      +docs:
+        node_color: '#9e9e9e'
+    15_lakehouse_gold:
+      +docs:
+        node_color: '#f9a825'
   elementary:
     +schema: elementary

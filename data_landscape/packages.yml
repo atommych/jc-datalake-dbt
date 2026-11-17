@@ -2,5 +2,5 @@
 # Edit the workbook and regenerate rather than editing this file by hand.
 
 packages:
-- package: elementary-data/elementary
-  version: 0.26.1
+  - package: elementary-data/elementary
+    version: 0.26.1

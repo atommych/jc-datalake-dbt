@@ -13,7 +13,7 @@ logic: the project is generated from a workbook and rendered with
 | `data_landscape/` | The dbt project (models, sources, exposures, docs blocks, profile) |
 | `data_landscape/dbt_project.yml` | Project config; node colours per process stage |
 | `data_landscape/profiles.yml` | DuckDB `:memory:` profile, so nothing is written to disk |
-| `data_landscape/models/` | Stub models per process stage (`03_…` to `10_…`), plus `sources.yml`, `exposures.yml` and `docs/` |
+| `data_landscape/models/` | Stub models per process stage (`03_…` to `15_…`), plus `sources.yml`, `exposures.yml` and `docs/` |
 | `data_landscape/scripts/generate_project.py` | Regenerates `dbt_project.yml` and `models/` from the workbook |
 | `data_landscape/dbt_docs.html` | Pre-built static docs; open in a browser, no install needed |
 | `miro_data_sources_catalog.xlsx` | Source catalog workbook |

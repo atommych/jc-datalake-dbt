@@ -27,17 +27,17 @@ dbt docs serve --profiles-dir .                               # or serve it loca
 
 | Workbook | dbt | Count |
 |---|---|---|
-| System that sends data but receives none | source (`models/sources.yml`, grouped by process stage) | 10 |
-| System that receives and passes data on | stub model (`models/<stage>/<system_id>.sql`) | 27 |
-| System that receives data but sends none | exposure (`models/exposures.yml`) | 13 |
-| Row of the Data Flows sheet | one edge: a `-- depends_on: {{ ref() }}` / `{{ source() }}` line, or an exposure `depends_on` entry | 93 of 100 |
+| System that sends data but receives none | source (`models/sources.yml`, grouped by process stage) | 12 |
+| System that receives and passes data on | stub model (`models/<stage>/<system_id>.sql`) | 37 |
+| System that receives data but sends none | exposure (`models/exposures.yml`) | 11 |
+| Row of the Data Flows sheet | one edge: a `-- depends_on: {{ ref() }}` / `{{ source() }}` line, or an exposure `depends_on` entry | 101 of 110 |
 | System notes, entities, metrics, aliases, flows | docs block per system (`models/docs/systems.md`) | 50 |
 
 The docs home page (`models/docs/overview.md`) explains the graph, lists the
 process stages and their colours, the flagged flows and the open assumptions.
 
 Every node carries tags you can use in the graph's `--select` box:
-`stage_05`, `domain_b2b`, `kind_system`, `entity_customer`, `two_way_flow`.
+`kind_system`, `entity_customer`, `two_way_flow`.
 
 ## Flagged two-way flows
 

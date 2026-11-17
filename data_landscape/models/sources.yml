@@ -5,23 +5,10 @@ version: 2
 sources:
 
   - name: sources
-    description: 'Origin systems in process stage 01 · External & reference sources: they send data but receive none.'
+    description: 'Origin systems in process stage 01 · External & reference sources, 05 · CRM & customer support: they send
+      data but receive none.'
     tables:
 
-      - name: zendesk
-        description: '{{ doc("sys_zendesk") }}'
-        config:
-          meta:
-            system_id: zendesk
-            system_name: Zendesk
-            node_kind: External service
-            type_technology: Customer support
-            domain: Support
-            process_stage: 05 · CRM & customer support
-          tags:
-            - kind_external_service
-            - entity_ticket
-            
       - name: moneyhouse
         description: '{{ doc("sys_moneyhouse") }}'
         config:
@@ -91,6 +78,20 @@ sources:
           tags:
             - kind_external_source
 
+      - name: zendesk
+        description: '{{ doc("sys_zendesk") }}'
+        config:
+          meta:
+            system_id: zendesk
+            system_name: Zendesk
+            node_kind: External service
+            type_technology: Customer support
+            domain: Support
+            process_stage: 05 · CRM & customer support
+          tags:
+            - kind_external_service
+            - entity_ticket
+
   - name: users_teams
     description: 'Origin systems in process stage 02 · Users & teams: they send data but receive none.'
     tables:
@@ -124,3 +125,118 @@ sources:
           tags:
             - kind_people_team
             - entity_user
+
+  - name: lakehouse_sources_mongodb
+    description: 'Origin systems in process stage 12 · Lakehouse sources (MongoDB): they send data but receive none.'
+    tables:
+
+      - name: mongo_ppp_job_ads
+        description: '{{ doc("sys_mongo_ppp_job_ads") }}'
+        config:
+          meta:
+            system_id: mongo_ppp_job_ads
+            system_name: MongoDB raw-ppp-job-ads
+            node_kind: System
+            type_technology: MongoDB collection (mutable reference data)
+            domain: B2B + B2C
+            process_stage: 12 · Lakehouse sources (MongoDB)
+          tags:
+            - kind_system
+            - entity_category
+            - entity_jobadid
+            - entity_last_updated
+            - entity_location
+            - entity_publisherid
+
+      - name: mongo_tracking_organic_clicks
+        description: '{{ doc("sys_mongo_tracking_organic_clicks") }}'
+        config:
+          meta:
+            system_id: mongo_tracking_organic_clicks
+            system_name: MongoDB organic clicks collection
+            node_kind: Data stream
+            type_technology: MongoDB collection (append-only events)
+            domain: Tracking
+            process_stage: 12 · Lakehouse sources (MongoDB)
+          tags:
+            - kind_data_stream
+            - entity_agencyid
+            - entity_bidtype
+            - entity_campaignid
+            - entity_classificationtype
+            - entity_clientid
+            - entity_country
+            - entity_devicetype
+            - entity_eventcost
+            - entity_eventdate
+            - entity_eventtimestamp
+            - entity_id
+            - entity_isbot
+            - entity_jobadid
+            - entity_jobgroupid
+            - entity_jx
+            - entity_jz
+            - entity_last_updated
+            - entity_migration_batch
+            - entity_publisherid
+            - entity_refnumber
+            - entity_trackingeventid
+
+      - name: mongo_tracking_sponsored_clicks
+        description: '{{ doc("sys_mongo_tracking_sponsored_clicks") }}'
+        config:
+          meta:
+            system_id: mongo_tracking_sponsored_clicks
+            system_name: MongoDB sponsored clicks collection
+            node_kind: Data stream
+            type_technology: MongoDB collection (append-only events)
+            domain: Tracking
+            process_stage: 12 · Lakehouse sources (MongoDB)
+          tags:
+            - kind_data_stream
+            - entity_agencyid
+            - entity_bidtype
+            - entity_campaignid
+            - entity_classificationtype
+            - entity_clientid
+            - entity_country
+            - entity_devicetype
+            - entity_eventcost
+            - entity_eventdate
+            - entity_eventtimestamp
+            - entity_id
+            - entity_isbot
+            - entity_jobadid
+            - entity_jobgroupid
+            - entity_jx
+            - entity_jz
+            - entity_last_updated
+            - entity_migration_batch
+            - entity_publisherid
+            - entity_refnumber
+            - entity_trackingeventid
+
+      - name: mongo_ml_driven_pacing
+        description: '{{ doc("sys_mongo_ml_driven_pacing") }}'
+        config:
+          meta:
+            system_id: mongo_ml_driven_pacing
+            system_name: MongoDB ml-driven-pacing collection
+            node_kind: System
+            type_technology: MongoDB collection (ML forecast export)
+            domain: Data Science & AI
+            process_stage: 12 · Lakehouse sources (MongoDB)
+          tags:
+            - kind_system
+            - entity_id
+            - entity_jobcategory
+            - entity_jobcity
+            - entity_keyid
+            - entity_mlflow_id
+            - entity_publisher
+            - entity_schemaversion
+            - entity_target
+            - entity_updatedts
+            - entity_validfrom
+            - entity_validto
+            - entity_weights

@@ -1178,3 +1178,471 @@ _None._
 _None._
 
 {% enddocs %}
+
+{% docs sys_mongo_ppp_job_ads %}
+**MongoDB raw-ppp-job-ads** · MongoDB collection (mutable reference data)
+
+- **Node kind:** System
+- **Domain:** B2B + B2C
+- **Process stage:** 12 · Lakehouse sources (MongoDB)
+- **Represented as:** dbt source (origin system: sends data, receives none)
+- **Also written as:** —
+- **Core entities:** jobAdId, category, location, publisherId, last_updated
+- **Metrics / KPIs:** —
+
+**Notes:** ~1 M documents, mutated in place; ingested as a daily full snapshot.
+
+#### Receives data from
+
+_None._
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F101 | Bronze raw_ppp_job_ads | Daily full snapshot (Glue, 5-field projection); overwrite of the ingestion_date partition | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_mongo_tracking_organic_clicks %}
+**MongoDB organic clicks collection** · MongoDB collection (append-only events)
+
+- **Node kind:** Data stream
+- **Domain:** Tracking
+- **Process stage:** 12 · Lakehouse sources (MongoDB)
+- **Represented as:** dbt source (origin system: sends data, receives none)
+- **Also written as:** —
+- **Core entities:** _id, agencyId, bidType, campaignId, classificationType, clientId, country, deviceType, eventCost, eventDate, eventTimestamp, isBot, jobAdId, jobGroupId, jx, jz, last_updated, migration_batch, publisherId, refNumber, trackingEventId
+- **Metrics / KPIs:** —
+
+**Notes:** ~100 M documents across both click collections (~140 GB); watermark-incremental ingestion.
+
+#### Receives data from
+
+_None._
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F102 | Bronze tracking_organic_clicks | Watermark incremental: max(event_timestamp) minus 3 days up to end of yesterday; 21-field allowlist applied server-side (ip excluded) | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_mongo_tracking_sponsored_clicks %}
+**MongoDB sponsored clicks collection** · MongoDB collection (append-only events)
+
+- **Node kind:** Data stream
+- **Domain:** Tracking
+- **Process stage:** 12 · Lakehouse sources (MongoDB)
+- **Represented as:** dbt source (origin system: sends data, receives none)
+- **Also written as:** —
+- **Core entities:** _id, agencyId, bidType, campaignId, classificationType, clientId, country, deviceType, eventCost, eventDate, eventTimestamp, isBot, jobAdId, jobGroupId, jx, jz, last_updated, migration_batch, publisherId, refNumber, trackingEventId
+- **Metrics / KPIs:** —
+
+**Notes:** Same shape as the organic collection.
+
+#### Receives data from
+
+_None._
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F103 | Bronze tracking_sponsored_clicks | Watermark incremental: max(event_timestamp) minus 3 days up to end of yesterday; 21-field allowlist applied server-side (ip excluded) | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_mongo_ml_driven_pacing %}
+**MongoDB ml-driven-pacing collection** · MongoDB collection (ML forecast export)
+
+- **Node kind:** System
+- **Domain:** Data Science & AI
+- **Process stage:** 12 · Lakehouse sources (MongoDB)
+- **Represented as:** dbt source (origin system: sends data, receives none)
+- **Also written as:** —
+- **Core entities:** _id, mlflow_id, _updatedTS, schemaVersion, target, validFrom, validTo, keyId, jobCategory, jobCity, publisher, weights
+- **Metrics / KPIs:** —
+
+**Notes:** One document per (keyId, validFrom, validTo); exporter-owned.
+
+#### Receives data from
+
+_None._
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F104 | Bronze ml_driven_pacing | Daily snapshot of the forecast collection | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_bronze_raw_ppp_job_ads %}
+**Bronze raw_ppp_job_ads** · Parquet table (Bronze, 7-day retention)
+
+- **Node kind:** System
+- **Domain:** Data Lakehouse
+- **Process stage:** 13 · Lakehouse bronze
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** jobAdId, category, location, publisherId, last_updated, ingestion_date
+- **Metrics / KPIs:** —
+
+**Notes:** Database pro_ds_lakehouse_bronze. Partitioned by ingestion_date. Not exposed to Data Science.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F101 | MongoDB raw-ppp-job-ads | Daily full snapshot (Glue, 5-field projection); overwrite of the ingestion_date partition | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F105 | Silver ppp_job_ads | Latest partition, dedup by jobAdId on last_updated; CREATE OR REPLACE | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_bronze_tracking_organic_clicks %}
+**Bronze tracking_organic_clicks** · Parquet table (Bronze, 7-day retention)
+
+- **Node kind:** System
+- **Domain:** Data Lakehouse
+- **Process stage:** 13 · Lakehouse bronze
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** _id, agencyId, bidType, campaignId, classificationType, clientId, country, deviceType, eventCost, eventDate, eventTimestamp, isBot, jobAdId, jobGroupId, jx, jz, last_updated, migration_batch, publisherId, refNumber, trackingEventId, event_date, ingested_at
+- **Metrics / KPIs:** —
+
+**Notes:** Database pro_ds_lakehouse_bronze. Partitioned by event_date. PII (ip) filtered at source.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F102 | MongoDB organic clicks collection | Watermark incremental: max(event_timestamp) minus 3 days up to end of yesterday; 21-field allowlist applied server-side (ip excluded) | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F106 | Silver tracking_organic_clicks | Latest ingested_at batch merged on event_id; snake_case rename, ObjectId normalised | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_bronze_tracking_sponsored_clicks %}
+**Bronze tracking_sponsored_clicks** · Parquet table (Bronze, 7-day retention)
+
+- **Node kind:** System
+- **Domain:** Data Lakehouse
+- **Process stage:** 13 · Lakehouse bronze
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** _id, agencyId, bidType, campaignId, classificationType, clientId, country, deviceType, eventCost, eventDate, eventTimestamp, isBot, jobAdId, jobGroupId, jx, jz, last_updated, migration_batch, publisherId, refNumber, trackingEventId, event_date, ingested_at
+- **Metrics / KPIs:** —
+
+**Notes:** Database pro_ds_lakehouse_bronze. Partitioned by event_date. PII (ip) filtered at source.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F103 | MongoDB sponsored clicks collection | Watermark incremental: max(event_timestamp) minus 3 days up to end of yesterday; 21-field allowlist applied server-side (ip excluded) | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F107 | Silver tracking_sponsored_clicks | Latest ingested_at batch merged on event_id; snake_case rename, ObjectId normalised | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_bronze_ml_driven_pacing %}
+**Bronze ml_driven_pacing** · Parquet table (Bronze, 7-day retention)
+
+- **Node kind:** System
+- **Domain:** Data Science & AI
+- **Process stage:** 13 · Lakehouse bronze
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** _id, mlflow_id, _updatedTS, schemaVersion, target, validFrom, validTo, keyId, jobCategory, jobCity, publisher, weights, ingestion_date
+- **Metrics / KPIs:** —
+
+**Notes:** Database pro_ds_lakehouse_bronze. Partitioned by ingestion_date; weights is a nested array.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F104 | MongoDB ml-driven-pacing collection | Daily snapshot of the forecast collection | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F108 | Silver ml_driven_pacing_forecasts | Explode weights to one row per (forecast_doc_id, key_id, ts_hour) | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_silver_tracking_organic_clicks %}
+**Silver tracking_organic_clicks** · Iceberg table (Silver, fact)
+
+- **Node kind:** System
+- **Domain:** Data Lakehouse
+- **Process stage:** 14 · Lakehouse silver
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** event_id (Merge key), agency_id, bid_type, campaign_id, classification_type, client_id, country_code (Upper-cased), device_type (Lower-cased), event_cost, event_date, event_timestamp (Partition column and watermark), is_bot (Not filtered), job_ad_id, job_group_id, jx, jz, source_updated_at, migration_batch, publisher_id, ref_number, tracking_event_id, processed_at
+- **Metrics / KPIs:** —
+
+**Notes:** Database pro_ds_lakehouse_silver. One row per click, MERGE on event_id; partitioned by days(event_timestamp). Durable layer.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F106 | Bronze tracking_organic_clicks | Latest ingested_at batch merged on event_id; snake_case rename, ObjectId normalised | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F109 | Gold organic_clicks_hourly_by_segment | Filter by agency, hourly aggregation, is_bot kept as grouping column | One row | Yes |  |
+| F113 | Gold organic_clicks_hourly | Single-source hourly aggregation, no dimension join | One row | Yes |  |
+| F122 | Amazon Athena (pro-ds-lakehouse workgroup) | Queried by Data Science via the pro-ds-lakehouse workgroup | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_silver_ppp_job_ads %}
+**Silver ppp_job_ads** · Iceberg table (Silver, dimension)
+
+- **Node kind:** System
+- **Domain:** Data Lakehouse
+- **Process stage:** 14 · Lakehouse silver
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** job_ad_id (Join key; unique), job_category (Raw), job_city (Raw free text), processed_at
+- **Metrics / KPIs:** —
+
+**Notes:** Database pro_ds_lakehouse_silver. One row per job ad, rebuilt daily.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F105 | Bronze raw_ppp_job_ads | Latest partition, dedup by jobAdId on last_updated; CREATE OR REPLACE | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F110 | Gold organic_clicks_hourly_by_segment | Broadcast left join on job_ad_id for job_category / job_city | One row | Yes |  |
+| F112 | Gold sponsored_clicks_hourly_by_segment | Broadcast left join on job_ad_id for job_category / job_city | One row | Yes |  |
+| F121 | Amazon Athena (pro-ds-lakehouse workgroup) | Queried by Data Science via the pro-ds-lakehouse workgroup | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_silver_tracking_sponsored_clicks %}
+**Silver tracking_sponsored_clicks** · Iceberg table (Silver, fact)
+
+- **Node kind:** System
+- **Domain:** Data Lakehouse
+- **Process stage:** 14 · Lakehouse silver
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** event_id (Merge key), agency_id, bid_type, campaign_id, classification_type, client_id, country_code (Upper-cased), device_type (Lower-cased), event_cost, event_date, event_timestamp (Partition column and watermark), is_bot (Not filtered), job_ad_id, job_group_id, jx, jz, source_updated_at, migration_batch, publisher_id, ref_number, tracking_event_id, processed_at
+- **Metrics / KPIs:** —
+
+**Notes:** Database pro_ds_lakehouse_silver. Same schema as the organic table.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F107 | Bronze tracking_sponsored_clicks | Latest ingested_at batch merged on event_id; snake_case rename, ObjectId normalised | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F111 | Gold sponsored_clicks_hourly_by_segment | Filter by agency, hourly aggregation, is_bot kept as grouping column | One row | Yes |  |
+| F123 | Amazon Athena (pro-ds-lakehouse workgroup) | Queried by Data Science via the pro-ds-lakehouse workgroup | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_silver_ml_driven_pacing_forecasts %}
+**Silver ml_driven_pacing_forecasts** · Iceberg table (Silver)
+
+- **Node kind:** System
+- **Domain:** Data Science & AI
+- **Process stage:** 14 · Lakehouse silver
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** forecast_doc_id (Identity), mlflow_id (Nullable), published_at (Nullable), key_id (CATEGORY|City|Publisher), ts_hour (Partition column), target (organic_clicks or total_clicks; always filter), valid_from, valid_to, schema_version (Do not rely on it), job_category, job_city, publisher_id, weight (Sums to 1.0 over 168 h), clicks_forecast
+- **Metrics / KPIs:** —
+
+**Notes:** Database pro_ds_lakehouse_silver. One row per (forecast_doc_id, key_id, ts_hour); a mirror, not an archive.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F108 | Bronze ml_driven_pacing | Explode weights to one row per (forecast_doc_id, key_id, ts_hour) | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F114 | Gold pacing_forecast_vs_actuals_hourly | Newest forecast per (key_id, ts_hour), compared per tier | One row | Yes |  |
+| F124 | Amazon Athena (pro-ds-lakehouse workgroup) | Queried by Data Science via the pro-ds-lakehouse workgroup | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_gold_organic_clicks_hourly_by_segment %}
+**Gold organic_clicks_hourly_by_segment** · Iceberg table (Gold)
+
+- **Node kind:** System
+- **Domain:** Data Lakehouse
+- **Process stage:** 15 · Lakehouse gold
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** click_date, click_hour, job_category, job_city, publisher_id, is_bot (Grain, not a filter), organic_clicks, total_click_cost, aggregated_at
+- **Metrics / KPIs:** Organic clicks, Total click cost
+
+**Notes:** Database pro_ds_lakehouse_gold. Agency jobcloudProdClientFacing. Grain includes is_bot.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F109 | Silver tracking_organic_clicks | Filter by agency, hourly aggregation, is_bot kept as grouping column | One row | Yes |  |
+| F110 | Silver ppp_job_ads | Broadcast left join on job_ad_id for job_category / job_city | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F115 | Gold pacing_forecast_vs_actuals_hourly | Actuals collapsed over is_bot, full outer join to forecast per tier | One row | Yes |  |
+| F117 | Amazon Athena (pro-ds-lakehouse workgroup) | Queried by Data Science / BI via the pro-ds-lakehouse workgroup | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_gold_sponsored_clicks_hourly_by_segment %}
+**Gold sponsored_clicks_hourly_by_segment** · Iceberg table (Gold)
+
+- **Node kind:** System
+- **Domain:** Data Lakehouse
+- **Process stage:** 15 · Lakehouse gold
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** click_date, click_hour, job_category, job_city, publisher_id, is_bot (Grain, not a filter), sponsored_clicks, total_click_cost, aggregated_at
+- **Metrics / KPIs:** Sponsored clicks, Total click cost
+
+**Notes:** Database pro_ds_lakehouse_gold. Agency jobcloudProdPackage. Grain includes is_bot.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F111 | Silver tracking_sponsored_clicks | Filter by agency, hourly aggregation, is_bot kept as grouping column | One row | Yes |  |
+| F112 | Silver ppp_job_ads | Broadcast left join on job_ad_id for job_category / job_city | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F116 | Gold pacing_forecast_vs_actuals_hourly | Actuals collapsed over is_bot, full outer join to forecast per tier | One row | Yes |  |
+| F118 | Amazon Athena (pro-ds-lakehouse workgroup) | Queried by Data Science / BI via the pro-ds-lakehouse workgroup | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_gold_organic_clicks_hourly %}
+**Gold organic_clicks_hourly** · Iceberg table (Gold)
+
+- **Node kind:** System
+- **Domain:** Data Lakehouse
+- **Process stage:** 15 · Lakehouse gold
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** click_date, click_hour, agency_id, bid_type, classification_type, country_code, device_type, publisher_id, is_bot, total_clicks, processed_at
+- **Metrics / KPIs:** Total clicks
+
+**Notes:** Database pro_ds_lakehouse_gold. Single-source worked example carried over from staging.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F113 | Silver tracking_organic_clicks | Single-source hourly aggregation, no dimension join | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F119 | Amazon Athena (pro-ds-lakehouse workgroup) | Queried by Data Science / BI via the pro-ds-lakehouse workgroup | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_gold_pacing_forecast_vs_actuals_hourly %}
+**Gold pacing_forecast_vs_actuals_hourly** · Iceberg table (Gold)
+
+- **Node kind:** System
+- **Domain:** Data Science & AI
+- **Process stage:** 15 · Lakehouse gold
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** click_date, click_hour, tier (1, 2 or 3; always filter), job_category, job_city, publisher_id, key_id, forecast_doc_id, clicks_forecast, weight, actual_organic_clicks, actual_sponsored_clicks, actual_total_clicks, actual_bot_clicks (Already included in actual_total_clicks), total_click_cost, match_type (Forecast, actuals or both)
+- **Metrics / KPIs:** Forecast clicks, Actual total clicks
+
+**Notes:** Database pro_ds_lakehouse_gold. Always filter on tier (1-3); tiers are nested aggregates.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F114 | Silver ml_driven_pacing_forecasts | Newest forecast per (key_id, ts_hour), compared per tier | One row | Yes |  |
+| F115 | Gold organic_clicks_hourly_by_segment | Actuals collapsed over is_bot, full outer join to forecast per tier | One row | Yes |  |
+| F116 | Gold sponsored_clicks_hourly_by_segment | Actuals collapsed over is_bot, full outer join to forecast per tier | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F120 | Amazon Athena (pro-ds-lakehouse workgroup) | Queried by Data Science / BI via the pro-ds-lakehouse workgroup | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_athena_pro_ds_lakehouse %}
+**Amazon Athena (pro-ds-lakehouse workgroup)** · Query engine (10 GB scan cap per query)
+
+- **Node kind:** System
+- **Domain:** Data Lakehouse
+- **Process stage:** 16 · Lakehouse query access
+- **Represented as:** dbt exposure (end point: receives data, sends none)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** Silver and Gold are exposed to Data Science; Bronze is not.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F117 | Gold organic_clicks_hourly_by_segment | Queried by Data Science / BI via the pro-ds-lakehouse workgroup | One row | Yes |  |
+| F118 | Gold sponsored_clicks_hourly_by_segment | Queried by Data Science / BI via the pro-ds-lakehouse workgroup | One row | Yes |  |
+| F119 | Gold organic_clicks_hourly | Queried by Data Science / BI via the pro-ds-lakehouse workgroup | One row | Yes |  |
+| F120 | Gold pacing_forecast_vs_actuals_hourly | Queried by Data Science / BI via the pro-ds-lakehouse workgroup | One row | Yes |  |
+| F121 | Silver ppp_job_ads | Queried by Data Science via the pro-ds-lakehouse workgroup | One row | Yes |  |
+| F122 | Silver tracking_organic_clicks | Queried by Data Science via the pro-ds-lakehouse workgroup | One row | Yes |  |
+| F123 | Silver tracking_sponsored_clicks | Queried by Data Science via the pro-ds-lakehouse workgroup | One row | Yes |  |
+| F124 | Silver ml_driven_pacing_forecasts | Queried by Data Science via the pro-ds-lakehouse workgroup | One row | Yes |  |
+
+#### Sends data to
+
+_None._
+
+{% enddocs %}

@@ -6,7 +6,7 @@ Generate a documentation-only dbt project from data_sources_standardized.xlsx.
 
 What it writes (generated files are replaced; profiles.yml and README.md are not touched):
     dbt_project.yml                    node colours per process stage
-    models/sources.yml                 origin systems (no inbound flows)   -> dbt sources
+    models/sources.yml                 origin systems (no inbound flows)   -> dbt sources (written only if missing)
     models/exposures.yml               end-point systems (no outbound)     -> dbt exposures
     models/groups.yml                  one dbt group per domain (owner from GROUP_OWNERS), set on stub models
     models/<stage>/<system_id>.sql     every other system                  -> stub model
@@ -37,6 +37,7 @@ GROUP_OWNERS = {
     "b2c": "Seekers - B2C Portals (Marek Lerche, Edgars Zvirbulis)",
     "finance": "Finance & Controlling (Diego Rudolf, Evangelo Zervoulias)",
     "integration": "Data Engineering (Andreas Kamber)",
+    "data_lakehouse": "Data Engineering (Andreas Kamber)",
     "tracking": "Web Tracking (Aneliya Filatova)",
 }
 
@@ -60,6 +61,7 @@ SINK_STAGES = {
     "vertical_fe": "7 B2C frontends & user services",
     "frontends_unspec": "7 B2C frontends & user services",
     "bigquery": "10 Data warehouse & BI",
+    "athena_pro_ds_lakehouse": "16 Lakehouse query access",
     "tx_group": "11 Shareholder reporting",
     "ringier": "11 Shareholder reporting",
 }
@@ -67,9 +69,13 @@ SINK_STAGES = {
 # Lineage-graph colour of stub models per process stage. dbt docs keeps
 # sources green and exposures orange.
 STAGE_COLOURS = {
-    3: "#8e63ce", 4: "#3b78e7", 5: "#d81b60", 6: "#b8860b",
-    7: "#a0522d", 8: "#78909c", 9: "#00acc1", 10: "#5c6bc0", 11: "#6d4c41",
+    3: "#5fb825", 4: "#3b78e7", 5: "#d81b60", 6: "#b8860b",
+    7: "#5fb825", 8: "#78909c", 9: "#00acc1", 10: "#5c6bc0", 11: "#6d4c41",
+    12: "#2e7d32", 13: "#8d6e63", 14: "#9e9e9e", 15: "#f9a825", 16: "#00897b",
 }
+
+# dbt source groups named after the stage slug, unless renamed here (several stages may share a name)
+SOURCE_GROUP_NAMES = {"external_reference_sources": "sources", "crm_customer_support": "sources"}
 
 EXPOSURE_TYPE_BY_KIND = {"Organisation": "dashboard"}
 EXPOSURE_TYPE_BY_ID = {"bigquery": "analysis"}
@@ -80,6 +86,10 @@ EXPOSURE_TYPE_BY_ID = {"bigquery": "analysis"}
 # --------------------------------------------------------------------------- #
 def slug(text):
     return re.sub(r"[^a-z0-9]+", "_", str(text).lower()).strip("_")
+
+
+def source_group(stage):
+    return SOURCE_GROUP_NAMES.get(stage.slug, stage.slug)
 
 
 def md(text):
@@ -95,7 +105,6 @@ class Stage:
         self.label = f"{self.num:02d} · {self.title}"
         self.slug = slug(self.title)
         self.folder = f"{self.num:02d}_{self.slug}"
-        self.tag = f"stage_{self.num:02d}"
 
     def __lt__(self, other):
         return self.num < other.num
@@ -271,7 +280,7 @@ def choose_flagged_flows(systems, flows):
 # --------------------------------------------------------------------------- #
 def dbt_call(s):
     if s["resource"] == "source":
-        return f"source('{s['stage'].slug}', '{s['id']}')"
+        return f"source('{source_group(s['stage'])}', '{s['id']}')"
     return f"ref('{s['id']}')"
 
 
@@ -289,7 +298,7 @@ def node_config(s, flagged):
     if own_flagged:
         meta["flagged_two_way_flows"] = ", ".join(own_flagged)
 
-    tags = [s["stage"].tag, f"domain_{slug(s['domain'])}", f"kind_{slug(s['kind'])}"]
+    tags = [f"kind_{slug(s['kind'])}"]
     tags += sorted({f"entity_{slug(e.split(' (')[0])}" for e in s["entities"]})
     if own_flagged:
         tags.append("two_way_flow")
@@ -412,9 +421,7 @@ def overview_doc(order, systems, flows, flagged):
           "Type these in the `--select` box under the lineage graph:",
           "",
           "- `+salesforce_1+` shows everything upstream and downstream of Salesforce 1.",
-          "- `tag:stage_08` shows one process stage (here: tracking).",
           "- `tag:entity_customer` shows every system that holds Customer data.",
-          "- `tag:domain_b2b` shows one domain.",
           "- `tag:two_way_flow` shows the systems involved in flagged two-way flows.",
           "",
           "## Open assumptions from standardization",
@@ -479,17 +486,21 @@ def generate(xlsx, root):
               "# Edit the workbook and regenerate rather than editing this file by hand.\n\n")
 
     # sources.yml: origin systems, grouped by process stage --------------------
-    by_stage = defaultdict(list)
+    by_group = defaultdict(list)
     for s in order:
         if s["resource"] == "source":
-            by_stage[s["stage"]].append(s)
+            by_group[source_group(s["stage"])].append(s)
     sources = [{
-        "name": st.slug,
-        "description": f"Origin systems in process stage {st.label}: they send data but receive none.",
+        "name": name,
+        "description": "Origin systems in process stage " + ", ".join(sorted({s["stage"].label for s in ss})) + ": they send data but receive none.",
         "tables": [{"name": s["id"], "description": f'{{{{ doc("sys_{s["id"]}") }}}}',
-                    "config": node_config(s, flagged)} for s in by_stage[st]],
-    } for st in sorted(by_stage)]
-    write(models_dir / "sources.yml", header + dump_yaml({"version": 2, "sources": sources}))
+                    "config": node_config(s, flagged)} for s in ss],
+    } for name, ss in by_group.items()]
+    # sources.yml is maintained by hand once it exists: never overwrite it
+    if (models_dir / "sources.yml").exists():
+        print("models/sources.yml exists: left untouched")
+    else:
+        write(models_dir / "sources.yml", header + dump_yaml({"version": 2, "sources": sources}))
 
     # exposures.yml: end-point systems ------------------------------------------
     exposures = []
@@ -522,7 +533,7 @@ def generate(xlsx, root):
 
     # groups.yml: one group per domain; dbt groups apply to models only ---------
     domains = sorted({s["domain"] for s in order if s["resource"] == "model"}, key=slug)
-    groups = [{"name": slug(d), "owner": {"name": GROUP_OWNERS.get(slug(d), "TBD")}} for d in domains]
+    groups = [{"name": slug(d), "owner": {"name": {**EXTRA_GROUP_OWNERS, **GROUP_OWNERS}.get(slug(d), "TBD")}} for d in domains]
     groups += [{"name": n, "owner": {"name": o}} for n, o in EXTRA_GROUP_OWNERS.items() if n not in {g["name"] for g in groups}]
     write(models_dir / "groups.yml", header + dump_yaml({"version": 2, "groups": groups}))
 
