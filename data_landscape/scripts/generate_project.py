@@ -8,7 +8,7 @@ What it writes (generated files are replaced; profiles.yml and README.md are not
     dbt_project.yml                    node colours per process stage
     models/sources.yml                 origin systems (no inbound flows)   -> dbt sources
     models/exposures.yml               end-point systems (no outbound)     -> dbt exposures
-    models/groups.yml                  one dbt group per domain (owner TBD), set on stub models
+    models/groups.yml                  one dbt group per domain (owner from GROUP_OWNERS), set on stub models
     models/<stage>/<system_id>.sql     every other system                  -> stub model
     models/<stage>/_<stage>__models.yml
     models/docs/overview.md            docs home page (__overview__)
@@ -28,6 +28,25 @@ import openpyxl
 import yaml
 
 PROJECT_NAME = "data_landscape"
+
+# Owning team (and main contacts) per domain group, from the stakeholder overview
+GROUP_OWNERS = {
+    "analytics_bi": "Data Analytics & BI (Arnaud Fiales)",
+    "b2b": "Enterprise Analytics Suite / LME (Simon Jansen, Chris Ackermann)",
+    "b2b_b2c": "Core & Pro Engine Engineering (Marko Ilic)",
+    "b2c": "Seekers - B2C Portals (Marek Lerche, Edgars Zvirbulis)",
+    "finance": "Finance & Controlling (Diego Rudolf, Evangelo Zervoulias)",
+    "integration": "Data Engineering (Andreas Kamber)",
+    "tracking": "Web Tracking (Aneliya Filatova)",
+}
+
+# Stakeholder groups that own no domain of systems but still belong in groups.yml
+EXTRA_GROUP_OWNERS = {
+    "data_science_ai": "Data Science & AI Hub (Ignacio Aracena, Yasmina Tregan)",
+    "small_enterprises": "Small Enterprises - SE / ONE (Adrian Herrmann, Oliver Leumann)",
+    "data_governance": "Data Governance, Legal & Security (Eugenia Lipski)",
+    "executive_sponsors": "Executive Sponsors (Hamza Waqas, Sebastian Bossung)",
+}
 
 # Stage of systems that never send data (they have no "Process stage (source)"
 # value in the Data Flows sheet). Systems not listed here and not found in the
@@ -503,7 +522,8 @@ def generate(xlsx, root):
 
     # groups.yml: one group per domain; dbt groups apply to models only ---------
     domains = sorted({s["domain"] for s in order if s["resource"] == "model"}, key=slug)
-    groups = [{"name": slug(d), "owner": {"name": "TBD"}} for d in domains]
+    groups = [{"name": slug(d), "owner": {"name": GROUP_OWNERS.get(slug(d), "TBD")}} for d in domains]
+    groups += [{"name": n, "owner": {"name": o}} for n, o in EXTRA_GROUP_OWNERS.items() if n not in {g["name"] for g in groups}]
     write(models_dir / "groups.yml", header + dump_yaml({"version": 2, "groups": groups}))
 
     # docs blocks -----------------------------------------------------------------

@@ -6,27 +6,27 @@ groups:
 
   - name: analytics_bi
     owner:
-      name: TBD
+      name: "Data Analytics & BI (Arnaud Fiales)"
 
   - name: b2b
     owner:
-      name: TBD
+      name: "Enterprise Analytics Suite / LME (Simon Jansen, Chris Ackermann)"
 
   - name: b2b_b2c
     owner:
-      name: TBD
+      name: "Core & Pro Engine Engineering (Marko Ilic)"
 
   - name: b2c
     owner:
-      name: TBD
+      name: "Seekers - B2C Portals (Marek Lerche, Edgars Zvirbulis)"
 
   - name: finance
     owner:
-      name: TBD
+      name: "Finance & Controlling (Diego Rudolf, Evangelo Zervoulias)"
 
   - name: integration
     owner:
-      name: TBD
+      name: "Data Engineering (Andreas Kamber)"
 
   - name: support
     owner:
@@ -34,8 +34,24 @@ groups:
 
   - name: tracking
     owner:
-      name: TBD
+      name: "Web Tracking (Aneliya Filatova)"
 
   - name: unknown
     owner:
       name: TBD
+
+  - name: data_science_ai
+    owner:
+      name: "Data Science & AI Hub (Ignacio Aracena, Yasmina Tregan)"
+
+  - name: small_enterprises
+    owner:
+      name: "Small Enterprises - SE / ONE (Adrian Herrmann, Oliver Leumann)"
+
+  - name: data_governance
+    owner:
+      name: "Data Governance, Legal & Security (Eugenia Lipski)"
+
+  - name: executive_sponsors
+    owner:
+      name: "Executive Sponsors (Hamza Waqas, Sebastian Bossung)"
