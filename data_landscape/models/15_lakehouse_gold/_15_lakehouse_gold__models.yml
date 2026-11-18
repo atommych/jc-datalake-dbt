@@ -104,3 +104,22 @@ models:
         - entity_tier
         - entity_total_click_cost
         - entity_weight
+
+  - name: glue_gold_vacancy_credit_duration
+    description: '{{ doc("sys_glue_gold_vacancy_credit_duration") }}'
+    config:
+      group: b2b
+      meta:
+        system_id: glue_gold_vacancy_credit_duration
+        system_name: Glue gold vacancy_credit_duration
+        node_kind: System
+        type_technology: Iceberg table (Glue, Gold)
+        domain: B2B
+        process_stage: 15 · Lakehouse gold
+      tags:
+        - kind_system
+        - entity_account_id
+        - entity_credit_product_name_en
+        - entity_vacancy_duration
+        - entity_vacancy_id
+        - entity_vacancy_jobposition

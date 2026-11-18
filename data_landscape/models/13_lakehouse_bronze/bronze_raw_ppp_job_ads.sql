@@ -7,6 +7,6 @@
     from the Data Flows sheet; dbt draws it as an edge in the lineage graph.
 #}
 
--- depends_on: {{ source('lakehouse_sources_mongodb', 'mongo_ppp_job_ads') }}  -- F101 MongoDB raw-ppp-job-ads (Daily full snapshot (Glue, 5-field projection); overwrite of the ingestion_date partition)
+-- depends_on: {{ source('lakehouse_sources', 'mongo_ppp_job_ads') }}  -- F101 MongoDB raw-ppp-job-ads (Daily full snapshot (Glue, 5-field projection); overwrite of the ingestion_date partition)
 
 select 1 as placeholder

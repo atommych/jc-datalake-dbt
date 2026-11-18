@@ -126,8 +126,8 @@ sources:
             - kind_people_team
             - entity_user
 
-  - name: lakehouse_sources_mongodb
-    description: 'Origin systems in process stage 12 · Lakehouse sources (MongoDB): they send data but receive none.'
+  - name: lakehouse_sources
+    description: 'Origin systems in process stage 12 · Lakehouse sources: they send data but receive none.'
     tables:
 
       - name: mongo_ppp_job_ads
@@ -139,7 +139,7 @@ sources:
             node_kind: System
             type_technology: MongoDB collection (mutable reference data)
             domain: B2B + B2C
-            process_stage: 12 · Lakehouse sources (MongoDB)
+            process_stage: 12 · Lakehouse sources
           tags:
             - kind_system
             - entity_category
@@ -157,7 +157,7 @@ sources:
             node_kind: Data stream
             type_technology: MongoDB collection (append-only events)
             domain: Tracking
-            process_stage: 12 · Lakehouse sources (MongoDB)
+            process_stage: 12 · Lakehouse sources
           tags:
             - kind_data_stream
             - entity_agencyid
@@ -191,7 +191,7 @@ sources:
             node_kind: Data stream
             type_technology: MongoDB collection (append-only events)
             domain: Tracking
-            process_stage: 12 · Lakehouse sources (MongoDB)
+            process_stage: 12 · Lakehouse sources
           tags:
             - kind_data_stream
             - entity_agencyid
@@ -225,7 +225,7 @@ sources:
             node_kind: System
             type_technology: MongoDB collection (ML forecast export)
             domain: Data Science & AI
-            process_stage: 12 · Lakehouse sources (MongoDB)
+            process_stage: 12 · Lakehouse sources
           tags:
             - kind_system
             - entity_id
@@ -240,3 +240,16 @@ sources:
             - entity_validfrom
             - entity_validto
             - entity_weights
+
+      - name: event_history_s3
+        description: '{{ doc("sys_event_history_s3") }}'
+        config:
+          meta:
+            system_id: event_history_s3
+            system_name: S3 event history (deng-services-event-prod-history)
+            node_kind: System
+            type_technology: S3 bucket (Kafka event history)
+            domain: Tracking
+            process_stage: 12 · Lakehouse sources
+          tags:
+            - kind_system

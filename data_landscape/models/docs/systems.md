@@ -402,6 +402,9 @@ _None._
 | F047 | Tealium |  | One row | Yes |  |
 | F048 | Abacus |  | One row | Yes |  |
 | F049 | EagleFly | daily revenue | Both | Yes |  |
+| F129 | Glue bronze credit_stream | Kafka (AVRO) marketplace.core.entity.credit | One row | Yes |  |
+| F130 | Glue bronze credit_redemption_stream | Kafka (AVRO) marketplace.core.entity.credit_redemption | One row | Yes |  |
+| F131 | Glue bronze vacancy_stream | Kafka (AVRO) marketplace.core.entity.vacancy | One row | Yes |  |
 
 {% enddocs %}
 
@@ -588,6 +591,8 @@ _None._
 | F072 | jobs.ch / jobup.ch B2C Frontends |  | One row | Yes |  |
 | F073 | jobscout24.ch B2C Frontend |  | One row | Yes |  |
 | F075 | Vertical B2C Frontends |  | One row | Yes |  |
+| F127 | Glue bronze company_stream | Kafka (JSON) datapool topic company: CDC envelope unwrapped | One row | Yes |  |
+| F128 | Glue bronze job_stream | Kafka (JSON) datapool topic job: CDC envelope unwrapped | One row | Yes |  |
 
 {% enddocs %}
 
@@ -823,6 +828,7 @@ _None._
 | Flow | To | Detail | Stated in | In lineage graph | Note |
 |---|---|---|---|---|---|
 | F084 | Tealium |  | One row | Yes |  |
+| F126 | Glue bronze clicks_all_platforms_stream | Kafka (AVRO) services cluster: jobs, jobup and jobscout24 click topics | One row | Yes |  |
 
 {% enddocs %}
 
@@ -1184,7 +1190,7 @@ _None._
 
 - **Node kind:** System
 - **Domain:** B2B + B2C
-- **Process stage:** 12 · Lakehouse sources (MongoDB)
+- **Process stage:** 12 · Lakehouse sources
 - **Represented as:** dbt source (origin system: sends data, receives none)
 - **Also written as:** —
 - **Core entities:** jobAdId, category, location, publisherId, last_updated
@@ -1209,7 +1215,7 @@ _None._
 
 - **Node kind:** Data stream
 - **Domain:** Tracking
-- **Process stage:** 12 · Lakehouse sources (MongoDB)
+- **Process stage:** 12 · Lakehouse sources
 - **Represented as:** dbt source (origin system: sends data, receives none)
 - **Also written as:** —
 - **Core entities:** _id, agencyId, bidType, campaignId, classificationType, clientId, country, deviceType, eventCost, eventDate, eventTimestamp, isBot, jobAdId, jobGroupId, jx, jz, last_updated, migration_batch, publisherId, refNumber, trackingEventId
@@ -1234,7 +1240,7 @@ _None._
 
 - **Node kind:** Data stream
 - **Domain:** Tracking
-- **Process stage:** 12 · Lakehouse sources (MongoDB)
+- **Process stage:** 12 · Lakehouse sources
 - **Represented as:** dbt source (origin system: sends data, receives none)
 - **Also written as:** —
 - **Core entities:** _id, agencyId, bidType, campaignId, classificationType, clientId, country, deviceType, eventCost, eventDate, eventTimestamp, isBot, jobAdId, jobGroupId, jx, jz, last_updated, migration_batch, publisherId, refNumber, trackingEventId
@@ -1259,7 +1265,7 @@ _None._
 
 - **Node kind:** System
 - **Domain:** Data Science & AI
-- **Process stage:** 12 · Lakehouse sources (MongoDB)
+- **Process stage:** 12 · Lakehouse sources
 - **Represented as:** dbt source (origin system: sends data, receives none)
 - **Also written as:** —
 - **Core entities:** _id, mlflow_id, _updatedTS, schemaVersion, target, validFrom, validTo, keyId, jobCategory, jobCity, publisher, weights
@@ -1276,6 +1282,31 @@ _None._
 | Flow | To | Detail | Stated in | In lineage graph | Note |
 |---|---|---|---|---|---|
 | F104 | Bronze ml_driven_pacing | Daily snapshot of the forecast collection | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_event_history_s3 %}
+**S3 event history (deng-services-event-prod-history)** · S3 bucket (Kafka event history)
+
+- **Node kind:** System
+- **Domain:** Tracking
+- **Process stage:** 12 · Lakehouse sources
+- **Represented as:** dbt source (origin system: sends data, receives none)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** Bucket prefix kafka_event/event_kafka_storage/; loaded by /Workspace/MSK Connection Tests/load_historical_clicks_s3.
+
+#### Receives data from
+
+_None._
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F125 | Glue bronze clicks_all_platforms_historical | Historical click events loaded from S3 into Bronze | One row | Yes |  |
 
 {% enddocs %}
 
@@ -1384,6 +1415,198 @@ _None._
 | Flow | To | Detail | Stated in | In lineage graph | Note |
 |---|---|---|---|---|---|
 | F108 | Silver ml_driven_pacing_forecasts | Explode weights to one row per (forecast_doc_id, key_id, ts_hour) | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_glue_bronze_clicks_all_platforms_historical %}
+**Glue bronze clicks_all_platforms_historical** · Iceberg table (Glue, Bronze)
+
+- **Node kind:** System
+- **Domain:** Tracking
+- **Process stage:** 13 · Lakehouse bronze
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** AWS Glue database bronze; s3://aws-clickhouse-storage-710514262953/iceberg/bronze.db/clicks_all_platforms_historical. Script: /Workspace/MSK Connection Tests/load_historical_clicks_s3.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F125 | S3 event history (deng-services-event-prod-history) | Historical click events loaded from S3 into Bronze | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F132 | Glue silver clicks_all_platforms_historical | Historical clicks promoted to Silver | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_glue_bronze_clicks_all_platforms_stream %}
+**Glue bronze clicks_all_platforms_stream** · Iceberg table (Glue, Bronze)
+
+- **Node kind:** System
+- **Domain:** Tracking
+- **Process stage:** 13 · Lakehouse bronze
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** AWS Glue database bronze; s3://aws-clickhouse-storage-710514262953/iceberg-warehouse/bronze.db/clicks_all_platforms_stream. Raw firehose of click events across all JobCloud portals (jobs.ch, jobup.ch, etc.). Kafka topic: jobcloud.client.event.jobs.click + jobcloud.client.event.jobup.click + jobcloud.client.event.jobscout24.click. Script: /Workspace/kafka_streams/services streams/events_click_stream.py.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F126 | event.click | Kafka (AVRO) services cluster: jobs, jobup and jobscout24 click topics | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F133 | Glue silver clicks_all_platforms_stream_and_historical | Streaming clicks unioned with history (stream table not catalogued in Glue; assumed read from Bronze) | One row | Yes |  |
+| F134 | Glue silver clicks_job_application_sent_stream | Filtered click stream for job_application_sent | One row | Yes |  |
+| F138 | Glue silver clicks_job_application_start_stream | Filtered click stream for job_application_start | One row | Yes |  |
+| F142 | Glue silver clicks_job_hit_stream | Filtered click stream for job_hit | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_glue_bronze_company_stream %}
+**Glue bronze company_stream** · Iceberg table (Glue, Bronze)
+
+- **Node kind:** System
+- **Domain:** Integration
+- **Process stage:** 13 · Lakehouse bronze
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** AWS Glue database bronze; s3://aws-clickhouse-storage-710514262953/iceberg-warehouse/bronze.db/company_stream. CDC envelope unwrapped: operation + inner company record as VARIANT. Unmasked (email/phone), access restricted pending Manuel's masking answer (HANDOVER.md Sec 5). Kafka topic: company. Script: /Workspace/kafka_streams/datapool streams/company_stream.py.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F127 | Datapool | Kafka (JSON) datapool topic company: CDC envelope unwrapped | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F147 | Glue silver company | Current-state entity built with AUTO CDC from Bronze | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_glue_bronze_job_stream %}
+**Glue bronze job_stream** · Iceberg table (Glue, Bronze)
+
+- **Node kind:** System
+- **Domain:** Integration
+- **Process stage:** 13 · Lakehouse bronze
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** AWS Glue database bronze; s3://aws-clickhouse-storage-710514262953/iceberg-warehouse/bronze.db/job_stream. CDC envelope unwrapped: operation + inner job record as VARIANT. Unmasked (email/phone), access restricted pending Manuel's masking answer (HANDOVER.md Sec 5). Kafka topic: job. Script: /Workspace/kafka_streams/datapool streams/job_stream.py.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F128 | Datapool | Kafka (JSON) datapool topic job: CDC envelope unwrapped | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F148 | Glue silver job | Current-state entity built with AUTO CDC from Bronze | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_glue_bronze_credit_stream %}
+**Glue bronze credit_stream** · Iceberg table (Glue, Bronze)
+
+- **Node kind:** System
+- **Domain:** B2B
+- **Process stage:** 13 · Lakehouse bronze
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** AWS Glue database bronze; s3://aws-clickhouse-storage-710514262953/iceberg-warehouse/bronze.db/credit_stream. Raw ingested stream for marketplace core credit entity. Kafka topic: marketplace.core.entity.credit. Script: /Workspace/kafka_streams/services streams/marketplace_stream.py.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F129 | marketplace (jobcloud.ai / ONE) | Kafka (AVRO) marketplace.core.entity.credit | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F149 | Glue silver credit | Current-state entity built with AUTO CDC from Bronze | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_glue_bronze_credit_redemption_stream %}
+**Glue bronze credit_redemption_stream** · Iceberg table (Glue, Bronze)
+
+- **Node kind:** System
+- **Domain:** B2B
+- **Process stage:** 13 · Lakehouse bronze
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** AWS Glue database bronze; s3://aws-clickhouse-storage-710514262953/iceberg-warehouse/bronze.db/credit_redemption_stream. Raw ingested stream for marketplace core credit redemption entity. Kafka topic: marketplace.core.entity.credit_redemption. Script: /Workspace/kafka_streams/services streams/marketplace_stream.py.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F130 | marketplace (jobcloud.ai / ONE) | Kafka (AVRO) marketplace.core.entity.credit_redemption | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F150 | Glue silver credit_redemption | Current-state entity built with AUTO CDC from Bronze | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_glue_bronze_vacancy_stream %}
+**Glue bronze vacancy_stream** · Iceberg table (Glue, Bronze)
+
+- **Node kind:** System
+- **Domain:** B2B
+- **Process stage:** 13 · Lakehouse bronze
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** AWS Glue database bronze; s3://aws-clickhouse-storage-710514262953/iceberg-warehouse/bronze.db/vacancy_stream. Raw ingested stream for marketplace core vacancy entity. Kafka topic: marketplace.core.entity.vacancy. Script: /Workspace/kafka_streams/services streams/marketplace_stream.py.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F131 | marketplace (jobcloud.ai / ONE) | Kafka (AVRO) marketplace.core.entity.vacancy | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F151 | Glue silver vacancy | Current-state entity built with AUTO CDC from Bronze | One row | Yes |  |
 
 {% enddocs %}
 
@@ -1501,6 +1724,448 @@ _None._
 
 {% enddocs %}
 
+{% docs sys_glue_silver_clicks_all_platforms_historical %}
+**Glue silver clicks_all_platforms_historical** · Iceberg table (Glue, Silver)
+
+- **Node kind:** System
+- **Domain:** Tracking
+- **Process stage:** 14 · Lakehouse silver
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** AWS Glue database silver; s3://aws-clickhouse-storage-710514262953/iceberg-warehouse/silver.db/clicks_all_platforms_historical. Script: /Workspace/MSK Connection Tests/load_historical_clicks_s3.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F132 | Glue bronze clicks_all_platforms_historical | Historical clicks promoted to Silver | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F135 | Glue silver clicks_job_application_sent_historical | job_application_sent events filtered from historical clicks (assumed) | One row | Yes |  |
+| F139 | Glue silver clicks_job_application_start_historical | job_application_start events filtered from historical clicks (assumed) | One row | Yes |  |
+| F143 | Glue silver clicks_job_hit_historical | job_hit events filtered from historical clicks (assumed) | One row | Yes |  |
+| F146 | Glue silver clicks_all_platforms_stream_and_historical | Historical part of the combined view | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_glue_silver_clicks_job_application_sent_historical %}
+**Glue silver clicks_job_application_sent_historical** · Iceberg table (Glue, Silver)
+
+- **Node kind:** System
+- **Domain:** Tracking
+- **Process stage:** 14 · Lakehouse silver
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** AWS Glue database silver; s3://aws-clickhouse-storage-710514262953/iceberg/silver.db/clicks_job_application_sent_historical.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F135 | Glue silver clicks_all_platforms_historical | job_application_sent events filtered from historical clicks (assumed) | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F136 | Glue silver clicks_job_application_sent_stream_and_historical | Historical part of the combined view | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_glue_silver_clicks_job_application_sent_stream %}
+**Glue silver clicks_job_application_sent_stream** · Iceberg table (Glue, Silver)
+
+- **Node kind:** System
+- **Domain:** Tracking
+- **Process stage:** 14 · Lakehouse silver
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** AWS Glue database silver; s3://aws-clickhouse-storage-710514262953/iceberg-warehouse/silver.db/clicks_job_application_sent_stream. Filtered click stream for completed application submissions (job_application_sent). Kafka topic: jobcloud.client.event.jobs.click + jobcloud.client.event.jobup.click + jobcloud.client.event.jobscout24.click. Script: /Workspace/kafka_streams/services streams/events_click_stream.py.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F134 | Glue bronze clicks_all_platforms_stream | Filtered click stream for job_application_sent | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F137 | Glue silver clicks_job_application_sent_stream_and_historical | Stream part of the combined view | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_glue_silver_clicks_job_application_start_historical %}
+**Glue silver clicks_job_application_start_historical** · Iceberg table (Glue, Silver)
+
+- **Node kind:** System
+- **Domain:** Tracking
+- **Process stage:** 14 · Lakehouse silver
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** AWS Glue database silver; s3://aws-clickhouse-storage-710514262953/iceberg/silver.db/clicks_job_application_start_historical.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F139 | Glue silver clicks_all_platforms_historical | job_application_start events filtered from historical clicks (assumed) | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F140 | Glue silver clicks_job_application_start_stream_and_historical | Historical part of the combined view | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_glue_silver_clicks_job_application_start_stream %}
+**Glue silver clicks_job_application_start_stream** · Iceberg table (Glue, Silver)
+
+- **Node kind:** System
+- **Domain:** Tracking
+- **Process stage:** 14 · Lakehouse silver
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** AWS Glue database silver; s3://aws-clickhouse-storage-710514262953/iceberg-warehouse/silver.db/clicks_job_application_start_stream. Filtered click stream for application initiation events (job_application_start). Kafka topic: jobcloud.client.event.jobs.click + jobcloud.client.event.jobup.click + jobcloud.client.event.jobscout24.click. Script: /Workspace/kafka_streams/services streams/events_click_stream.py.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F138 | Glue bronze clicks_all_platforms_stream | Filtered click stream for job_application_start | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F141 | Glue silver clicks_job_application_start_stream_and_historical | Stream part of the combined view | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_glue_silver_clicks_job_hit_historical %}
+**Glue silver clicks_job_hit_historical** · Iceberg table (Glue, Silver)
+
+- **Node kind:** System
+- **Domain:** Tracking
+- **Process stage:** 14 · Lakehouse silver
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** AWS Glue database silver; s3://aws-clickhouse-storage-710514262953/iceberg/silver.db/clicks_job_hit_historical.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F143 | Glue silver clicks_all_platforms_historical | job_hit events filtered from historical clicks (assumed) | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F144 | Glue silver clicks_job_hit_stream_and_historical | Historical part of the combined view | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_glue_silver_clicks_job_hit_stream %}
+**Glue silver clicks_job_hit_stream** · Iceberg table (Glue, Silver)
+
+- **Node kind:** System
+- **Domain:** Tracking
+- **Process stage:** 14 · Lakehouse silver
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** AWS Glue database silver; s3://aws-clickhouse-storage-710514262953/iceberg-warehouse/silver.db/clicks_job_hit_stream. Filtered click stream for job detail view events (job_hit). Kafka topic: jobcloud.client.event.jobs.click + jobcloud.client.event.jobup.click + jobcloud.client.event.jobscout24.click. Script: /Workspace/kafka_streams/services streams/events_click_stream.py.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F142 | Glue bronze clicks_all_platforms_stream | Filtered click stream for job_hit | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F145 | Glue silver clicks_job_hit_stream_and_historical | Stream part of the combined view | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_glue_silver_clicks_all_platforms_stream_and_historical %}
+**Glue silver clicks_all_platforms_stream_and_historical** · Iceberg table (Glue, Silver)
+
+- **Node kind:** System
+- **Domain:** Tracking
+- **Process stage:** 14 · Lakehouse silver
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** AWS Glue database silver; s3://aws-clickhouse-storage-710514262953/iceberg-warehouse/silver.db/clicks_all_platforms_stream_and_historical.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F133 | Glue bronze clicks_all_platforms_stream | Streaming clicks unioned with history (stream table not catalogued in Glue; assumed read from Bronze) | One row | Yes |  |
+| F146 | Glue silver clicks_all_platforms_historical | Historical part of the combined view | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F152 | Amazon Athena (pro-ds-lakehouse workgroup) | Assumed queryable via Athena through the Glue Data Catalog | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_glue_silver_clicks_job_application_sent_stream_and_historical %}
+**Glue silver clicks_job_application_sent_stream_and_historical** · Iceberg table (Glue, Silver)
+
+- **Node kind:** System
+- **Domain:** Tracking
+- **Process stage:** 14 · Lakehouse silver
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** AWS Glue database silver; s3://aws-clickhouse-storage-710514262953/iceberg-warehouse/silver.db/clicks_job_application_sent_stream_and_historical.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F136 | Glue silver clicks_job_application_sent_historical | Historical part of the combined view | One row | Yes |  |
+| F137 | Glue silver clicks_job_application_sent_stream | Stream part of the combined view | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F153 | Amazon Athena (pro-ds-lakehouse workgroup) | Assumed queryable via Athena through the Glue Data Catalog | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_glue_silver_clicks_job_application_start_stream_and_historical %}
+**Glue silver clicks_job_application_start_stream_and_historical** · Iceberg table (Glue, Silver)
+
+- **Node kind:** System
+- **Domain:** Tracking
+- **Process stage:** 14 · Lakehouse silver
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** AWS Glue database silver; s3://aws-clickhouse-storage-710514262953/iceberg-warehouse/silver.db/clicks_job_application_start_stream_and_historical.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F140 | Glue silver clicks_job_application_start_historical | Historical part of the combined view | One row | Yes |  |
+| F141 | Glue silver clicks_job_application_start_stream | Stream part of the combined view | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F154 | Amazon Athena (pro-ds-lakehouse workgroup) | Assumed queryable via Athena through the Glue Data Catalog | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_glue_silver_clicks_job_hit_stream_and_historical %}
+**Glue silver clicks_job_hit_stream_and_historical** · Iceberg table (Glue, Silver)
+
+- **Node kind:** System
+- **Domain:** Tracking
+- **Process stage:** 14 · Lakehouse silver
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** AWS Glue database silver; s3://aws-clickhouse-storage-710514262953/iceberg-warehouse/silver.db/clicks_job_hit_stream_and_historical.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F144 | Glue silver clicks_job_hit_historical | Historical part of the combined view | One row | Yes |  |
+| F145 | Glue silver clicks_job_hit_stream | Stream part of the combined view | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F155 | Amazon Athena (pro-ds-lakehouse workgroup) | Assumed queryable via Athena through the Glue Data Catalog | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_glue_silver_company %}
+**Glue silver company** · Iceberg table (Glue, Silver)
+
+- **Node kind:** System
+- **Domain:** Integration
+- **Process stage:** 14 · Lakehouse silver
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** AWS Glue database silver; s3://aws-clickhouse-storage-710514262953/iceberg-warehouse/silver.db/company. Current-state company entity (one row per live company_id), built with AUTO CDC from bronze. Kafka topic: company. Script: /Workspace/kafka_streams/datapool streams/company_stream.py.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F147 | Glue bronze company_stream | Current-state entity built with AUTO CDC from Bronze | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F156 | Amazon Athena (pro-ds-lakehouse workgroup) | Assumed queryable via Athena through the Glue Data Catalog | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_glue_silver_job %}
+**Glue silver job** · Iceberg table (Glue, Silver)
+
+- **Node kind:** System
+- **Domain:** Integration
+- **Process stage:** 14 · Lakehouse silver
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** AWS Glue database silver; s3://aws-clickhouse-storage-710514262953/iceberg-warehouse/silver.db/job. Current-state job entity (one row per live job_id), built with AUTO CDC from bronze. Kafka topic: job. Script: /Workspace/kafka_streams/datapool streams/job_stream.py.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F148 | Glue bronze job_stream | Current-state entity built with AUTO CDC from Bronze | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F157 | Amazon Athena (pro-ds-lakehouse workgroup) | Assumed queryable via Athena through the Glue Data Catalog | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_glue_silver_credit %}
+**Glue silver credit** · Iceberg table (Glue, Silver)
+
+- **Node kind:** System
+- **Domain:** B2B
+- **Process stage:** 14 · Lakehouse silver
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** AWS Glue database silver; s3://aws-clickhouse-storage-710514262953/iceberg-warehouse/silver.db/credit. Current-state credit entity (one row per credit_id), built with AUTO CDC from bronze. Kafka topic: marketplace.core.entity.credit. Script: /Workspace/kafka_streams/services streams/marketplace_stream.py.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F149 | Glue bronze credit_stream | Current-state entity built with AUTO CDC from Bronze | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F158 | Amazon Athena (pro-ds-lakehouse workgroup) | Assumed queryable via Athena through the Glue Data Catalog | One row | Yes |  |
+| F163 | Glue gold vacancy_credit_duration | Credit product name | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_glue_silver_credit_redemption %}
+**Glue silver credit_redemption** · Iceberg table (Glue, Silver)
+
+- **Node kind:** System
+- **Domain:** B2B
+- **Process stage:** 14 · Lakehouse silver
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** AWS Glue database silver; s3://aws-clickhouse-storage-710514262953/iceberg-warehouse/silver.db/credit_redemption. Current-state credit redemption entity (one row per redemption_id), built with AUTO CDC from bronze. Kafka topic: marketplace.core.entity.credit_redemption. Script: /Workspace/kafka_streams/services streams/marketplace_stream.py.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F150 | Glue bronze credit_redemption_stream | Current-state entity built with AUTO CDC from Bronze | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F159 | Amazon Athena (pro-ds-lakehouse workgroup) | Assumed queryable via Athena through the Glue Data Catalog | One row | Yes |  |
+| F162 | Glue gold vacancy_credit_duration | Redemption duration per vacancy | One row | Yes |  |
+
+{% enddocs %}
+
+{% docs sys_glue_silver_vacancy %}
+**Glue silver vacancy** · Iceberg table (Glue, Silver)
+
+- **Node kind:** System
+- **Domain:** B2B
+- **Process stage:** 14 · Lakehouse silver
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** —
+- **Metrics / KPIs:** —
+
+**Notes:** AWS Glue database silver; s3://aws-clickhouse-storage-710514262953/iceberg-warehouse/silver.db/vacancy. Current-state vacancy entity (one row per vacancy_id), built with AUTO CDC from bronze. Kafka topic: marketplace.core.entity.vacancy. Script: /Workspace/kafka_streams/services streams/marketplace_stream.py.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F151 | Glue bronze vacancy_stream | Current-state entity built with AUTO CDC from Bronze | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F160 | Amazon Athena (pro-ds-lakehouse workgroup) | Assumed queryable via Athena through the Glue Data Catalog | One row | Yes |  |
+| F161 | Glue gold vacancy_credit_duration | Vacancy account and job position | One row | Yes |  |
+
+{% enddocs %}
+
 {% docs sys_gold_organic_clicks_hourly_by_segment %}
 **Gold organic_clicks_hourly_by_segment** · Iceberg table (Gold)
 
@@ -1615,6 +2280,35 @@ _None._
 
 {% enddocs %}
 
+{% docs sys_glue_gold_vacancy_credit_duration %}
+**Glue gold vacancy_credit_duration** · Iceberg table (Glue, Gold)
+
+- **Node kind:** System
+- **Domain:** B2B
+- **Process stage:** 15 · Lakehouse gold
+- **Represented as:** dbt stub model (receives data and passes it on)
+- **Also written as:** —
+- **Core entities:** account_id, vacancy_id, vacancy_jobposition, credit_product_name_en, vacancy_duration
+- **Metrics / KPIs:** Vacancy duration (days)
+
+**Notes:** Migrated from a Redshift query over stage_postgres vacancy, credit_redemption and credit masters: days of credit redeemed per vacancy and credit product. Hand-written SQL (Athena/Trino) in models/15_lakehouse_gold; kept by the generator.
+
+#### Receives data from
+
+| Flow | From | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F161 | Glue silver vacancy | Vacancy account and job position | One row | Yes |  |
+| F162 | Glue silver credit_redemption | Redemption duration per vacancy | One row | Yes |  |
+| F163 | Glue silver credit | Credit product name | One row | Yes |  |
+
+#### Sends data to
+
+| Flow | To | Detail | Stated in | In lineage graph | Note |
+|---|---|---|---|---|---|
+| F164 | Amazon Athena (pro-ds-lakehouse workgroup) | Assumed queryable via Athena through the Glue Data Catalog | One row | Yes |  |
+
+{% enddocs %}
+
 {% docs sys_athena_pro_ds_lakehouse %}
 **Amazon Athena (pro-ds-lakehouse workgroup)** · Query engine (10 GB scan cap per query)
 
@@ -1640,6 +2334,16 @@ _None._
 | F122 | Silver tracking_organic_clicks | Queried by Data Science via the pro-ds-lakehouse workgroup | One row | Yes |  |
 | F123 | Silver tracking_sponsored_clicks | Queried by Data Science via the pro-ds-lakehouse workgroup | One row | Yes |  |
 | F124 | Silver ml_driven_pacing_forecasts | Queried by Data Science via the pro-ds-lakehouse workgroup | One row | Yes |  |
+| F152 | Glue silver clicks_all_platforms_stream_and_historical | Assumed queryable via Athena through the Glue Data Catalog | One row | Yes |  |
+| F153 | Glue silver clicks_job_application_sent_stream_and_historical | Assumed queryable via Athena through the Glue Data Catalog | One row | Yes |  |
+| F154 | Glue silver clicks_job_application_start_stream_and_historical | Assumed queryable via Athena through the Glue Data Catalog | One row | Yes |  |
+| F155 | Glue silver clicks_job_hit_stream_and_historical | Assumed queryable via Athena through the Glue Data Catalog | One row | Yes |  |
+| F156 | Glue silver company | Assumed queryable via Athena through the Glue Data Catalog | One row | Yes |  |
+| F157 | Glue silver job | Assumed queryable via Athena through the Glue Data Catalog | One row | Yes |  |
+| F158 | Glue silver credit | Assumed queryable via Athena through the Glue Data Catalog | One row | Yes |  |
+| F159 | Glue silver credit_redemption | Assumed queryable via Athena through the Glue Data Catalog | One row | Yes |  |
+| F160 | Glue silver vacancy | Assumed queryable via Athena through the Glue Data Catalog | One row | Yes |  |
+| F164 | Glue gold vacancy_credit_duration | Assumed queryable via Athena through the Glue Data Catalog | One row | Yes |  |
 
 #### Sends data to
 

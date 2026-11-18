@@ -121,3 +121,227 @@ models:
         - entity_valid_from
         - entity_valid_to
         - entity_weight
+
+  - name: glue_silver_clicks_all_platforms_historical
+    description: '{{ doc("sys_glue_silver_clicks_all_platforms_historical") }}'
+    config:
+      group: tracking
+      meta:
+        system_id: glue_silver_clicks_all_platforms_historical
+        system_name: Glue silver clicks_all_platforms_historical
+        node_kind: System
+        type_technology: Iceberg table (Glue, Silver)
+        domain: Tracking
+        process_stage: 14 · Lakehouse silver
+      tags:
+        - kind_system
+
+  - name: glue_silver_clicks_job_application_sent_historical
+    description: '{{ doc("sys_glue_silver_clicks_job_application_sent_historical") }}'
+    config:
+      group: tracking
+      meta:
+        system_id: glue_silver_clicks_job_application_sent_historical
+        system_name: Glue silver clicks_job_application_sent_historical
+        node_kind: System
+        type_technology: Iceberg table (Glue, Silver)
+        domain: Tracking
+        process_stage: 14 · Lakehouse silver
+      tags:
+        - kind_system
+
+  - name: glue_silver_clicks_job_application_sent_stream
+    description: '{{ doc("sys_glue_silver_clicks_job_application_sent_stream") }}'
+    config:
+      group: tracking
+      meta:
+        system_id: glue_silver_clicks_job_application_sent_stream
+        system_name: Glue silver clicks_job_application_sent_stream
+        node_kind: System
+        type_technology: Iceberg table (Glue, Silver)
+        domain: Tracking
+        process_stage: 14 · Lakehouse silver
+      tags:
+        - kind_system
+
+  - name: glue_silver_clicks_job_application_start_historical
+    description: '{{ doc("sys_glue_silver_clicks_job_application_start_historical") }}'
+    config:
+      group: tracking
+      meta:
+        system_id: glue_silver_clicks_job_application_start_historical
+        system_name: Glue silver clicks_job_application_start_historical
+        node_kind: System
+        type_technology: Iceberg table (Glue, Silver)
+        domain: Tracking
+        process_stage: 14 · Lakehouse silver
+      tags:
+        - kind_system
+
+  - name: glue_silver_clicks_job_application_start_stream
+    description: '{{ doc("sys_glue_silver_clicks_job_application_start_stream") }}'
+    config:
+      group: tracking
+      meta:
+        system_id: glue_silver_clicks_job_application_start_stream
+        system_name: Glue silver clicks_job_application_start_stream
+        node_kind: System
+        type_technology: Iceberg table (Glue, Silver)
+        domain: Tracking
+        process_stage: 14 · Lakehouse silver
+      tags:
+        - kind_system
+
+  - name: glue_silver_clicks_job_hit_historical
+    description: '{{ doc("sys_glue_silver_clicks_job_hit_historical") }}'
+    config:
+      group: tracking
+      meta:
+        system_id: glue_silver_clicks_job_hit_historical
+        system_name: Glue silver clicks_job_hit_historical
+        node_kind: System
+        type_technology: Iceberg table (Glue, Silver)
+        domain: Tracking
+        process_stage: 14 · Lakehouse silver
+      tags:
+        - kind_system
+
+  - name: glue_silver_clicks_job_hit_stream
+    description: '{{ doc("sys_glue_silver_clicks_job_hit_stream") }}'
+    config:
+      group: tracking
+      meta:
+        system_id: glue_silver_clicks_job_hit_stream
+        system_name: Glue silver clicks_job_hit_stream
+        node_kind: System
+        type_technology: Iceberg table (Glue, Silver)
+        domain: Tracking
+        process_stage: 14 · Lakehouse silver
+      tags:
+        - kind_system
+
+  - name: glue_silver_clicks_all_platforms_stream_and_historical
+    description: '{{ doc("sys_glue_silver_clicks_all_platforms_stream_and_historical") }}'
+    config:
+      group: tracking
+      meta:
+        system_id: glue_silver_clicks_all_platforms_stream_and_historical
+        system_name: Glue silver clicks_all_platforms_stream_and_historical
+        node_kind: System
+        type_technology: Iceberg table (Glue, Silver)
+        domain: Tracking
+        process_stage: 14 · Lakehouse silver
+      tags:
+        - kind_system
+
+  - name: glue_silver_clicks_job_application_sent_stream_and_historical
+    description: '{{ doc("sys_glue_silver_clicks_job_application_sent_stream_and_historical") }}'
+    config:
+      group: tracking
+      meta:
+        system_id: glue_silver_clicks_job_application_sent_stream_and_historical
+        system_name: Glue silver clicks_job_application_sent_stream_and_historical
+        node_kind: System
+        type_technology: Iceberg table (Glue, Silver)
+        domain: Tracking
+        process_stage: 14 · Lakehouse silver
+      tags:
+        - kind_system
+
+  - name: glue_silver_clicks_job_application_start_stream_and_historical
+    description: '{{ doc("sys_glue_silver_clicks_job_application_start_stream_and_historical") }}'
+    config:
+      group: tracking
+      meta:
+        system_id: glue_silver_clicks_job_application_start_stream_and_historical
+        system_name: Glue silver clicks_job_application_start_stream_and_historical
+        node_kind: System
+        type_technology: Iceberg table (Glue, Silver)
+        domain: Tracking
+        process_stage: 14 · Lakehouse silver
+      tags:
+        - kind_system
+
+  - name: glue_silver_clicks_job_hit_stream_and_historical
+    description: '{{ doc("sys_glue_silver_clicks_job_hit_stream_and_historical") }}'
+    config:
+      group: tracking
+      meta:
+        system_id: glue_silver_clicks_job_hit_stream_and_historical
+        system_name: Glue silver clicks_job_hit_stream_and_historical
+        node_kind: System
+        type_technology: Iceberg table (Glue, Silver)
+        domain: Tracking
+        process_stage: 14 · Lakehouse silver
+      tags:
+        - kind_system
+
+  - name: glue_silver_company
+    description: '{{ doc("sys_glue_silver_company") }}'
+    config:
+      group: integration
+      meta:
+        system_id: glue_silver_company
+        system_name: Glue silver company
+        node_kind: System
+        type_technology: Iceberg table (Glue, Silver)
+        domain: Integration
+        process_stage: 14 · Lakehouse silver
+      tags:
+        - kind_system
+
+  - name: glue_silver_job
+    description: '{{ doc("sys_glue_silver_job") }}'
+    config:
+      group: integration
+      meta:
+        system_id: glue_silver_job
+        system_name: Glue silver job
+        node_kind: System
+        type_technology: Iceberg table (Glue, Silver)
+        domain: Integration
+        process_stage: 14 · Lakehouse silver
+      tags:
+        - kind_system
+
+  - name: glue_silver_credit
+    description: '{{ doc("sys_glue_silver_credit") }}'
+    config:
+      group: b2b
+      meta:
+        system_id: glue_silver_credit
+        system_name: Glue silver credit
+        node_kind: System
+        type_technology: Iceberg table (Glue, Silver)
+        domain: B2B
+        process_stage: 14 · Lakehouse silver
+      tags:
+        - kind_system
+
+  - name: glue_silver_credit_redemption
+    description: '{{ doc("sys_glue_silver_credit_redemption") }}'
+    config:
+      group: b2b
+      meta:
+        system_id: glue_silver_credit_redemption
+        system_name: Glue silver credit_redemption
+        node_kind: System
+        type_technology: Iceberg table (Glue, Silver)
+        domain: B2B
+        process_stage: 14 · Lakehouse silver
+      tags:
+        - kind_system
+
+  - name: glue_silver_vacancy
+    description: '{{ doc("sys_glue_silver_vacancy") }}'
+    config:
+      group: b2b
+      meta:
+        system_id: glue_silver_vacancy
+        system_name: Glue silver vacancy
+        node_kind: System
+        type_technology: Iceberg table (Glue, Silver)
+        domain: B2B
+        process_stage: 14 · Lakehouse silver
+      tags:
+        - kind_system

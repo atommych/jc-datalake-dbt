@@ -214,6 +214,16 @@ exposures:
     owner:
       name: TBD
     depends_on:
+      - ref('glue_gold_vacancy_credit_duration')
+      - ref('glue_silver_clicks_all_platforms_stream_and_historical')
+      - ref('glue_silver_clicks_job_application_sent_stream_and_historical')
+      - ref('glue_silver_clicks_job_application_start_stream_and_historical')
+      - ref('glue_silver_clicks_job_hit_stream_and_historical')
+      - ref('glue_silver_company')
+      - ref('glue_silver_credit')
+      - ref('glue_silver_credit_redemption')
+      - ref('glue_silver_job')
+      - ref('glue_silver_vacancy')
       - ref('gold_organic_clicks_hourly')
       - ref('gold_organic_clicks_hourly_by_segment')
       - ref('gold_pacing_forecast_vs_actuals_hourly')

@@ -77,6 +77,9 @@ STAGE_COLOURS = {
 # dbt source groups named after the stage slug, unless renamed here (several stages may share a name)
 SOURCE_GROUP_NAMES = {"external_reference_sources": "sources", "crm_customer_support": "sources"}
 
+# Models whose SQL is written by hand: the generator keeps their file instead of writing a stub
+HAND_WRITTEN_MODELS = {"glue_gold_vacancy_credit_duration"}
+
 EXPOSURE_TYPE_BY_KIND = {"Organisation": "dashboard"}
 EXPOSURE_TYPE_BY_ID = {"bigquery": "analysis"}
 
@@ -479,6 +482,8 @@ def generate(xlsx, root):
     flagged = choose_flagged_flows(systems, flows)
 
     models_dir = root / "models"
+    kept_sql = {p.stem: p.read_text(encoding="utf-8")
+                for p in models_dir.glob("[0-9][0-9]_*/*.sql") if p.stem in HAND_WRITTEN_MODELS}
     for old in models_dir.glob("[0-9][0-9]_*"):
         shutil.rmtree(old)  # stage folders are regenerated from scratch
 
@@ -524,7 +529,8 @@ def generate(xlsx, root):
     for s in order:
         if s["resource"] == "model":
             stage_models[s["stage"]].append(s)
-            write(models_dir / s["stage"].folder / f"{s['id']}.sql", stub_sql(s, systems, flagged))
+            write(models_dir / s["stage"].folder / f"{s['id']}.sql",
+                  kept_sql.get(s["id"]) or stub_sql(s, systems, flagged))
     for st, ms in stage_models.items():
         props = {"version": 2, "models": [
             {"name": s["id"], "description": f'{{{{ doc("sys_{s["id"]}") }}}}',

@@ -5,12 +5,12 @@ This project documents the data and systems landscape from `data_sources_standar
 
 ## How to read the lineage graph
 
-Each node is one system and each edge is one row of the **Data Flows** sheet (F001–F124), except the flagged two-way flows listed below.
+Each node is one system and each edge is one row of the **Data Flows** sheet (F001–F164), except the flagged two-way flows listed below.
 
 | dbt resource | Represents | Count |
 |---|---|---|
-| Source | Origin systems: send data, receive none | 12 |
-| Model (stub) | Systems that receive data and pass it on | 37 |
+| Source | Origin systems: send data, receive none | 13 |
+| Model (stub) | Systems that receive data and pass it on | 61 |
 | Exposure | End points: receive data, send none | 11 |
 
 Each system's page lists its inbound and outbound flows with Flow ID, flow detail, whether the original table stated the flow in both rows, and any mapping note.
@@ -32,10 +32,10 @@ Stub models are coloured by stage in the lineage graph; sources stay green and e
 | 09 · Finance | `#00acc1` | Datendrehscheibe, Abacus |
 | 10 · Data warehouse & BI | `#5c6bc0` | EagleFly, Tableau, BigQuery |
 | 11 · Shareholder reporting | — | Ringier, TX Group |
-| 12 · Lakehouse sources (MongoDB) | — | MongoDB raw-ppp-job-ads, MongoDB organic clicks collection, MongoDB sponsored clicks collection, MongoDB ml-driven-pacing collection |
-| 13 · Lakehouse bronze | `#8d6e63` | Bronze raw_ppp_job_ads, Bronze tracking_organic_clicks, Bronze tracking_sponsored_clicks, Bronze ml_driven_pacing |
-| 14 · Lakehouse silver | `#9e9e9e` | Silver tracking_organic_clicks, Silver ppp_job_ads, Silver tracking_sponsored_clicks, Silver ml_driven_pacing_forecasts |
-| 15 · Lakehouse gold | `#f9a825` | Gold organic_clicks_hourly_by_segment, Gold sponsored_clicks_hourly_by_segment, Gold organic_clicks_hourly, Gold pacing_forecast_vs_actuals_hourly |
+| 12 · Lakehouse sources | — | MongoDB raw-ppp-job-ads, MongoDB organic clicks collection, MongoDB sponsored clicks collection, MongoDB ml-driven-pacing collection, S3 event history (deng-services-event-prod-history) |
+| 13 · Lakehouse bronze | `#8d6e63` | Bronze raw_ppp_job_ads, Bronze tracking_organic_clicks, Bronze tracking_sponsored_clicks, Bronze ml_driven_pacing, Glue bronze clicks_all_platforms_historical, Glue bronze clicks_all_platforms_stream, Glue bronze company_stream, Glue bronze job_stream, Glue bronze credit_stream, Glue bronze credit_redemption_stream, Glue bronze vacancy_stream |
+| 14 · Lakehouse silver | `#9e9e9e` | Silver tracking_organic_clicks, Silver ppp_job_ads, Silver tracking_sponsored_clicks, Silver ml_driven_pacing_forecasts, Glue silver clicks_all_platforms_historical, Glue silver clicks_job_application_sent_historical, Glue silver clicks_job_application_sent_stream, Glue silver clicks_job_application_start_historical, Glue silver clicks_job_application_start_stream, Glue silver clicks_job_hit_historical, Glue silver clicks_job_hit_stream, Glue silver clicks_all_platforms_stream_and_historical, Glue silver clicks_job_application_sent_stream_and_historical, Glue silver clicks_job_application_start_stream_and_historical, Glue silver clicks_job_hit_stream_and_historical, Glue silver company, Glue silver job, Glue silver credit, Glue silver credit_redemption, Glue silver vacancy |
+| 15 · Lakehouse gold | `#f9a825` | Gold organic_clicks_hourly_by_segment, Gold sponsored_clicks_hourly_by_segment, Gold organic_clicks_hourly, Gold pacing_forecast_vs_actuals_hourly, Glue gold vacancy_credit_duration |
 | 16 · Lakehouse query access | — | Amazon Athena (pro-ds-lakehouse workgroup) |
 
 ## Flagged two-way flows (cycles)

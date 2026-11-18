@@ -124,3 +124,101 @@ models:
         - entity_validfrom
         - entity_validto
         - entity_weights
+
+  - name: glue_bronze_clicks_all_platforms_historical
+    description: '{{ doc("sys_glue_bronze_clicks_all_platforms_historical") }}'
+    config:
+      group: tracking
+      meta:
+        system_id: glue_bronze_clicks_all_platforms_historical
+        system_name: Glue bronze clicks_all_platforms_historical
+        node_kind: System
+        type_technology: Iceberg table (Glue, Bronze)
+        domain: Tracking
+        process_stage: 13 · Lakehouse bronze
+      tags:
+        - kind_system
+
+  - name: glue_bronze_clicks_all_platforms_stream
+    description: '{{ doc("sys_glue_bronze_clicks_all_platforms_stream") }}'
+    config:
+      group: tracking
+      meta:
+        system_id: glue_bronze_clicks_all_platforms_stream
+        system_name: Glue bronze clicks_all_platforms_stream
+        node_kind: System
+        type_technology: Iceberg table (Glue, Bronze)
+        domain: Tracking
+        process_stage: 13 · Lakehouse bronze
+      tags:
+        - kind_system
+
+  - name: glue_bronze_company_stream
+    description: '{{ doc("sys_glue_bronze_company_stream") }}'
+    config:
+      group: integration
+      meta:
+        system_id: glue_bronze_company_stream
+        system_name: Glue bronze company_stream
+        node_kind: System
+        type_technology: Iceberg table (Glue, Bronze)
+        domain: Integration
+        process_stage: 13 · Lakehouse bronze
+      tags:
+        - kind_system
+
+  - name: glue_bronze_job_stream
+    description: '{{ doc("sys_glue_bronze_job_stream") }}'
+    config:
+      group: integration
+      meta:
+        system_id: glue_bronze_job_stream
+        system_name: Glue bronze job_stream
+        node_kind: System
+        type_technology: Iceberg table (Glue, Bronze)
+        domain: Integration
+        process_stage: 13 · Lakehouse bronze
+      tags:
+        - kind_system
+
+  - name: glue_bronze_credit_stream
+    description: '{{ doc("sys_glue_bronze_credit_stream") }}'
+    config:
+      group: b2b
+      meta:
+        system_id: glue_bronze_credit_stream
+        system_name: Glue bronze credit_stream
+        node_kind: System
+        type_technology: Iceberg table (Glue, Bronze)
+        domain: B2B
+        process_stage: 13 · Lakehouse bronze
+      tags:
+        - kind_system
+
+  - name: glue_bronze_credit_redemption_stream
+    description: '{{ doc("sys_glue_bronze_credit_redemption_stream") }}'
+    config:
+      group: b2b
+      meta:
+        system_id: glue_bronze_credit_redemption_stream
+        system_name: Glue bronze credit_redemption_stream
+        node_kind: System
+        type_technology: Iceberg table (Glue, Bronze)
+        domain: B2B
+        process_stage: 13 · Lakehouse bronze
+      tags:
+        - kind_system
+
+  - name: glue_bronze_vacancy_stream
+    description: '{{ doc("sys_glue_bronze_vacancy_stream") }}'
+    config:
+      group: b2b
+      meta:
+        system_id: glue_bronze_vacancy_stream
+        system_name: Glue bronze vacancy_stream
+        node_kind: System
+        type_technology: Iceberg table (Glue, Bronze)
+        domain: B2B
+        process_stage: 13 · Lakehouse bronze
+      tags:
+        - kind_system
